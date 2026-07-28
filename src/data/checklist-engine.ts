@@ -1,11 +1,12 @@
 import { CATEGORY_ORDER, GEAR_CATALOG, type GearCategory, type GearItem } from "./gear";
-import { getParkById, type Season } from "./parks";
+import { getParkById } from "./parks";
 
 export interface TripInput {
   parkId: string;
+  /** ISO date (YYYY-MM-DD) of arrival. */
+  startDate: string;
   days: number;
   groupSize: number;
-  season: Season;
 }
 
 export interface ComputedQuantity {

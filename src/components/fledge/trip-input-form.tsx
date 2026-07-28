@@ -13,21 +13,18 @@ import {
 } from "@/components/ui/select";
 import { PARKS } from "@/data/parks";
 
-const SEASONS = [
-  { id: "spring", label: "Spring" },
-  { id: "summer", label: "Summer" },
-  { id: "fall", label: "Fall" },
-  { id: "winter", label: "Winter" },
-] as const;
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export function TripInputForm() {
   const navigate = useNavigate();
   const [parkId, setParkId] = useState<string>("");
+  const [startDate, setStartDate] = useState<string>("");
   const [days, setDays] = useState<string>("3");
   const [groupSize, setGroupSize] = useState<string>("2");
-  const [season, setSeason] = useState<string>("");
 
-  const isValid = parkId !== "" && season !== "" && Number(days) > 0 && Number(groupSize) > 0;
+  const isValid = parkId !== "" && startDate !== "" && Number(days) > 0 && Number(groupSize) > 0;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -37,9 +34,9 @@ export function TripInputForm() {
       to: "/checklist",
       search: {
         park: parkId,
+        startDate,
         days: Number(days),
         group: Number(groupSize),
-        season,
       },
     });
   }
@@ -60,6 +57,17 @@ export function TripInputForm() {
             ))}
           </SelectContent>
         </Select>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="startDate">When do you arrive?</Label>
+        <Input
+          id="startDate"
+          type="date"
+          min={todayIso()}
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -85,22 +93,6 @@ export function TripInputForm() {
             onChange={(e) => setGroupSize(e.target.value)}
           />
         </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label htmlFor="season">What season?</Label>
-        <Select value={season} onValueChange={setSeason}>
-          <SelectTrigger id="season">
-            <SelectValue placeholder="Choose a season" />
-          </SelectTrigger>
-          <SelectContent>
-            {SEASONS.map((s) => (
-              <SelectItem key={s.id} value={s.id}>
-                {s.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
       </div>
 
       <Button type="submit" size="lg" className="w-full" disabled={!isValid}>

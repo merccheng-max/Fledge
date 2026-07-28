@@ -4,15 +4,17 @@ import { AlertTriangle } from "lucide-react";
 
 import { Header } from "@/components/fledge/header";
 import { ChecklistView } from "@/components/fledge/checklist-view";
+import { WeatherForecastCard } from "@/components/fledge/weather-forecast-card";
+import { CrowdLevelCard } from "@/components/fledge/crowd-level-card";
 import { Button } from "@/components/ui/button";
 import { generateChecklist } from "@/data/checklist-engine";
-import { getParkById, type Season } from "@/data/parks";
+import { getParkById, monthToSeason } from "@/data/parks";
 
 const checklistSearchSchema = z.object({
   park: z.string(),
+  startDate: z.string(),
   days: z.number().int().min(1).max(60),
   group: z.number().int().min(1).max(100),
-  season: z.enum(["spring", "summer", "fall", "winter"]),
 });
 
 export const Route = createFileRoute("/checklist")({
@@ -44,13 +46,24 @@ function ChecklistPage() {
     );
   }
 
+  const arrivalDate = new Date(`${search.startDate}T00:00:00`);
+  const month = arrivalDate.getMonth() + 1;
+  const season = monthToSeason(month);
+
   const checklist = generateChecklist({
     parkId: search.park,
+    startDate: search.startDate,
     days: search.days,
     groupSize: search.group,
-    season: search.season as Season,
   });
-  const seasonalNote = park.seasonalNotes[search.season as Season];
+  const seasonalNote = park.seasonalNotes[season];
+  const crowd = park.crowdByMonth[month];
+
+  const formattedDate = arrivalDate.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,14 +74,23 @@ function ChecklistPage() {
           {park.name}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
-          {search.group === 1 ? "person" : "people"} ·{" "}
-          {search.season.charAt(0).toUpperCase() + search.season.slice(1)}
+          {formattedDate} · {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
+          {search.group === 1 ? "person" : "people"}
         </p>
 
-        {(seasonalNote || park.generalNote) && (
-          <div className="mt-6 space-y-3">
-            {seasonalNote && <NoteCard text={seasonalNote} />}
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <WeatherForecastCard
+            lat={park.coordinates.lat}
+            lon={park.coordinates.lon}
+            startDate={search.startDate}
+            days={search.days}
+            fallbackNote={seasonalNote ?? "No seasonal notes available for this time of year."}
+          />
+          {crowd && <CrowdLevelCard level={crowd.level} note={crowd.note} />}
+        </div>
+
+        {park.generalNote && (
+          <div className="mt-3">
             <NoteCard text={park.generalNote} />
           </div>
         )}
