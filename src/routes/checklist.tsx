@@ -6,6 +6,7 @@ import { Header } from "@/components/fledge/header";
 import { ChecklistView } from "@/components/fledge/checklist-view";
 import { WeatherForecastCard } from "@/components/fledge/weather-forecast-card";
 import { CrowdLevelCard } from "@/components/fledge/crowd-level-card";
+import { TripChat } from "@/components/fledge/trip-chat";
 import { Button } from "@/components/ui/button";
 import { generateChecklist } from "@/data/checklist-engine";
 import { getParkById, monthToSeason } from "@/data/parks";
@@ -97,6 +98,32 @@ function ChecklistPage() {
 
         <div className="mt-10">
           <ChecklistView checklist={checklist} />
+        </div>
+
+        <div className="mt-10">
+          <TripChat
+            tripContext={{
+              park: park.name,
+              state: park.state,
+              startDate: search.startDate,
+              days: search.days,
+              groupSize: search.group,
+              season,
+              seasonalNote: seasonalNote ?? null,
+              parkGeneralNote: park.generalNote,
+              crowdLevel: crowd ?? null,
+              checklist: checklist.categories.flatMap((group) =>
+                group.items.map((item) => ({
+                  category: group.category,
+                  name: item.name,
+                  what: item.what,
+                  why: item.why,
+                  commonlyMissed: item.commonlyMissed ?? false,
+                  quantity: item.quantity ?? null,
+                })),
+              ),
+            }}
+          />
         </div>
 
         <div className="mt-12 border-t border-border pt-6">

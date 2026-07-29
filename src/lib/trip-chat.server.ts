@@ -38,7 +38,8 @@ export async function askTripChat({ question, tripContext }: TripChatRequest): P
 
   if (!response.ok) {
     const detail = await response.text();
-    if (response.status === 429) throw new Error("Too many requests right now — try again in a moment.");
+    if (response.status === 429)
+      throw new Error("Too many requests right now — try again in a moment.");
     if (response.status === 402) throw new Error("AI credits are exhausted for this workspace.");
     throw new Error(`AI request failed (${response.status}): ${detail.slice(0, 300)}`);
   }
