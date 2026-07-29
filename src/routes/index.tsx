@@ -3,6 +3,7 @@ import { ArrowRight, Compass, ListChecks, MapPin, MessageCircle } from "lucide-r
 
 import { Header } from "@/components/fledge/header";
 import { Button } from "@/components/ui/button";
+import { DecorativeMountains } from "@/components/fledge/decorative-mountains";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -13,7 +14,8 @@ function Index() {
     <div className="min-h-screen">
       <Header />
 
-      <main className="mx-auto max-w-4xl px-6 py-20">
+      <main className="relative mx-auto max-w-4xl overflow-hidden px-6 py-20">
+        <DecorativeMountains className="pointer-events-none absolute -right-24 top-0 -z-10 hidden h-[480px] w-[480px] text-primary sm:block" />
         <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
           <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
             Show up ready, even if it's your first time.

@@ -3,8 +3,10 @@ import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -14,28 +16,32 @@ import {
 } from "@/components/ui/select";
 import { PARKS } from "@/data/parks";
 
-function todayIso(): string {
-  return new Date().toISOString().slice(0, 10);
+function toIso(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 export function TripInputForm() {
   const navigate = useNavigate();
   const [parkId, setParkId] = useState<string>("");
-  const [startDate, setStartDate] = useState<string>("");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [datePopoverOpen, setDatePopoverOpen] = useState(false);
   const [days, setDays] = useState<string>("3");
   const [groupSize, setGroupSize] = useState<string>("2");
 
-  const isValid = parkId !== "" && startDate !== "" && Number(days) > 0 && Number(groupSize) > 0;
+  const isValid = parkId !== "" && !!selectedDate && Number(days) > 0 && Number(groupSize) > 0;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!isValid) return;
+    if (!isValid || !selectedDate) return;
 
     navigate({
       to: "/checklist",
       search: {
         park: parkId,
-        startDate,
+        startDate: toIso(selectedDate),
         days: Number(days),
         group: Number(groupSize),
       },
@@ -67,18 +73,40 @@ export function TripInputForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="startDate" className="flex items-center gap-1.5">
+        <Label className="flex items-center gap-1.5">
           <CalendarDays className="h-3.5 w-3.5 text-primary" />
           When do you arrive?
         </Label>
-        <Input
-          id="startDate"
-          type="date"
-          min={todayIso()}
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-          className="transition-shadow hover:shadow-sm"
-        />
+        <Popover open={datePopoverOpen} onOpenChange={setDatePopoverOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full justify-start font-normal transition-shadow hover:shadow-sm"
+            >
+              {selectedDate
+                ? selectedDate.toLocaleDateString("en-US", {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })
+                : "Choose a date"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={(date) => {
+                setSelectedDate(date);
+                setDatePopoverOpen(false);
+              }}
+              disabled={{ before: new Date() }}
+              autoFocus
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
