@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlanRouteImport } from './routes/plan'
 import { Route as ChecklistRouteImport } from './routes/checklist'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiTripChatRouteImport } from './routes/api/trip-chat'
 
 const PlanRoute = PlanRouteImport.update({
   id: '/plan',
@@ -28,35 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiTripChatRoute = ApiTripChatRouteImport.update({
+  id: '/api/trip-chat',
+  path: '/api/trip-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checklist': typeof ChecklistRoute
   '/plan': typeof PlanRoute
+  '/api/trip-chat': typeof ApiTripChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checklist': typeof ChecklistRoute
   '/plan': typeof PlanRoute
+  '/api/trip-chat': typeof ApiTripChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/checklist': typeof ChecklistRoute
   '/plan': typeof PlanRoute
+  '/api/trip-chat': typeof ApiTripChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checklist' | '/plan'
+  fullPaths: '/' | '/checklist' | '/plan' | '/api/trip-chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checklist' | '/plan'
-  id: '__root__' | '/' | '/checklist' | '/plan'
+  to: '/' | '/checklist' | '/plan' | '/api/trip-chat'
+  id: '__root__' | '/' | '/checklist' | '/plan' | '/api/trip-chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChecklistRoute: typeof ChecklistRoute
   PlanRoute: typeof PlanRoute
+  ApiTripChatRoute: typeof ApiTripChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/trip-chat': {
+      id: '/api/trip-chat'
+      path: '/api/trip-chat'
+      fullPath: '/api/trip-chat'
+      preLoaderRoute: typeof ApiTripChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,7 +106,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChecklistRoute: ChecklistRoute,
   PlanRoute: PlanRoute,
+  ApiTripChatRoute: ApiTripChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
