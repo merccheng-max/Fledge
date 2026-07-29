@@ -37,6 +37,16 @@ export const CATEGORY_ORDER: GearCategory[] = [
   "safety",
 ];
 
+/**
+ * How to link out for this item, if at all:
+ * - "shop": a physical retail product — links to a real REI search page.
+ * - "official-reservation": links to Recreation.gov, the actual federal booking
+ *   system for camping at these parks, filtered to the selected park.
+ * - "official-pass": links to the NPS's own page about entrance passes.
+ * - omitted: no external link makes sense (e.g. consumables, planning tasks).
+ */
+export type ExternalLinkType = "shop" | "official-reservation" | "official-pass";
+
 export interface GearItem {
   id: string;
   name: string;
@@ -49,6 +59,7 @@ export interface GearItem {
   commonlyMissed?: boolean;
   /** True if this item has a computed quantity (water, food, ice) shown in the checklist. */
   hasComputedQuantity?: boolean;
+  externalLinkType?: ExternalLinkType;
 }
 
 export const GEAR_CATALOG: GearItem[] = [
@@ -60,6 +71,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "Proof of your booked site — most national park campgrounds require reservations, not walk-ups.",
     why: "Popular sites in parks like Yosemite and Sequoia book out months ahead. Showing up without one often means no site at all, not just a worse one.",
     commonlyMissed: true,
+    externalLinkType: "official-reservation",
   },
   {
     id: "park-entrance-pass",
@@ -67,6 +79,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "permits",
     what: "Either a per-park entrance fee or an America the Beautiful annual pass if you're visiting multiple parks this year.",
     why: "Entrance is charged per vehicle at the gate — having it ready avoids a slow, awkward fumble on arrival.",
+    externalLinkType: "official-pass",
   },
 
   // Shelter
@@ -76,6 +89,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "shelter",
     what: "Your primary shelter, sized for your group and rated for the season you're camping in.",
     why: "A '3-season' tent by default isn't automatically warm-weather-only — check its rating against the coldest night you'll realistically see, not just the daytime forecast.",
+    externalLinkType: "shop",
   },
   {
     id: "tent-footprint",
@@ -84,6 +98,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A protective sheet placed under your tent, between the tent floor and the ground.",
     why: "Without it, rocks and moisture wear through the tent floor over time, and you're more likely to wake up in a damp sleeping bag.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "sleeping-pad",
@@ -92,6 +107,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "An insulating layer you sleep on top of, between your sleeping bag and the tent floor.",
     why: "This is about insulation, not comfort — the ground pulls heat out of your body much faster than air does. Without a pad, even a bag rated to 40°F will feel far colder than advertised.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "extra-stakes",
@@ -99,6 +115,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "shelter",
     what: "Backup stakes and cord beyond what the tent ships with.",
     why: "Factory stakes bend easily in rocky or hard ground, and a bent stake in wind is how a tent wall ends up in your face at 2am.",
+    externalLinkType: "shop",
   },
 
   // Sleep
@@ -108,6 +125,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "sleep",
     what: "Rated by temperature, not by season name alone.",
     why: "Rate it to the coldest night you'll realistically see, not the daytime high. Desert parks especially trip people up here — see the clothing section for why.",
+    externalLinkType: "shop",
   },
   {
     id: "sleeping-bag-liner",
@@ -116,6 +134,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A thin fabric liner that goes inside your sleeping bag.",
     why: "Adds roughly 10-15°F of warmth and keeps the bag itself clean — cheap insurance on a cold night.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "camp-pillow",
@@ -123,6 +142,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "sleep",
     what: "A camp pillow, or simply a stuff sack filled with spare clothes.",
     why: "Small comfort item — doesn't need to be fancy, but sleeping without one adds up over multiple nights.",
+    externalLinkType: "shop",
   },
 
   // Water
@@ -142,6 +162,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "Jugs or collapsible containers for hauling and storing your water at camp.",
     why: "Most drive-up campsites don't have a potable water tap at the site itself — people often assume there's one nearby and there isn't.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "backup-filter",
@@ -149,6 +170,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "water",
     what: "A portable filter or purification tablets, for emergencies only.",
     why: "Lower priority for frontcountry camping, but worth having if you're near a natural water source and run lower than planned.",
+    externalLinkType: "shop",
   },
 
   // Food
@@ -178,6 +200,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A portable stove and matching fuel canister.",
     why: "Many parks have seasonal fire bans, which makes a stove the only legal way to cook, not just a backup. People remember the stove and forget the fuel canister that actually fits it.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "cookware",
@@ -185,6 +208,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "cooking",
     what: "A basic pot/pan set and reusable dishware for the group.",
     why: "Doesn't need to be elaborate — one pot that can boil water covers most simple camp meals.",
+    externalLinkType: "shop",
   },
   {
     id: "cooler",
@@ -192,6 +216,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "cooking",
     what: "For storing perishable food safely, alongside your ice supply.",
     why: "Keeps food both safe to eat and, in bear country, properly secured when combined with a bear canister or locker.",
+    externalLinkType: "shop",
   },
   {
     id: "bear-canister",
@@ -200,6 +225,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A hard-sided container (or the metal locker most campsites provide) for storing food and anything scented overnight.",
     why: "Legally required in Yosemite and Sequoia & Kings Canyon, and enforced. It's not just about wildlife safety — rangers do issue citations for food left out.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "fire-starter",
@@ -207,6 +233,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "cooking",
     what: "Multiple, redundant ways to start a fire or light a stove.",
     why: "A single lighter running out of fuel or getting wet shouldn't be the reason you can't cook dinner.",
+    externalLinkType: "shop",
   },
   {
     id: "trash-bags",
@@ -214,6 +241,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "cooking",
     what: "For packing out everything you bring in.",
     why: "Many sites don't provide bins, or ask you to pack out trash rather than leave it. Bring more than you think you need.",
+    externalLinkType: "shop",
   },
 
   // Clothing & Layering
@@ -224,6 +252,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A warm mid-layer for once the sun goes down.",
     why: "The single biggest beginner mistake. Desert parks like Joshua Tree can hit 90°F+ by day and near-freezing at night — people pack for the daytime temperature they researched and freeze after sundown.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "rain-shell",
@@ -232,6 +261,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "An outer layer that blocks wind and rain.",
     why: "People check the day's forecast, see 'clear,' and skip rain gear entirely — then get caught by an afternoon storm, common in Sierra parks like Sequoia and Yosemite in summer.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "warm-hat-gloves",
@@ -239,6 +269,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "clothing",
     what: "Basic cold-weather accessories.",
     why: "Needed even in 'warm season' parks once the sun drops — heat loss through your head and hands is disproportionate to how small these items feel.",
+    externalLinkType: "shop",
   },
   {
     id: "closed-toe-shoes",
@@ -246,6 +277,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "clothing",
     what: "Real shoes or boots, not sandals, for walking around camp and on any trails.",
     why: "Uneven, rocky terrain around most campsites makes sandals a twisted-ankle risk.",
+    externalLinkType: "shop",
   },
   {
     id: "extra-socks",
@@ -254,6 +286,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "More pairs than you think you'll need.",
     why: "Consistently underpacked. Wet or cold feet are one of the fastest ways a trip goes from fine to miserable.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "sun-protection-clothing",
@@ -261,6 +294,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "clothing",
     what: "Direct sun protection, especially important in desert parks.",
     why: "Desert sun exposure is more intense than most beginners expect, even in cooler months.",
+    externalLinkType: "shop",
   },
 
   // Toiletries & Hygiene
@@ -271,6 +305,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "Your own supply, separate from whatever the campground provides.",
     why: "Vault toilets at many campgrounds run out, or don't stock any at all. Don't assume it's provided.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "hand-sanitizer",
@@ -278,6 +313,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "toiletries",
     what: "For quick cleanup before meals when there's no sink nearby.",
     why: "Frontcountry sites rarely have handwashing stations right at the campsite.",
+    externalLinkType: "shop",
   },
   {
     id: "biodegradable-soap",
@@ -285,6 +321,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "toiletries",
     what: "Soap safe to use away from plumbed sinks, for dishes or hands.",
     why: "Regular soap can harm the surrounding environment if rinsed onto the ground or near water sources.",
+    externalLinkType: "shop",
   },
   {
     id: "toothbrush-towel",
@@ -292,6 +329,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "toiletries",
     what: "Basic daily hygiene items.",
     why: "Easy to forget when packing focuses on 'camping gear' and skips the ordinary bathroom bag.",
+    externalLinkType: "shop",
   },
 
   // Camp Comfort
@@ -301,6 +339,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "camp-comfort",
     what: "Portable seating for the group.",
     why: "Most campgrounds provide one picnic table, which usually isn't enough seating for a full group.",
+    externalLinkType: "shop",
   },
   {
     id: "lantern",
@@ -308,6 +347,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "camp-comfort",
     what: "Hands-free lighting for the camp area at night, beyond a headlamp.",
     why: "Makes cooking and hanging out after dark much easier than relying on a single flashlight beam.",
+    externalLinkType: "shop",
   },
 
   // Safety & Misc.
@@ -318,6 +358,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A kit covering more than just band-aids — blister care, minor cuts, and any personal medication.",
     why: "People often have 'a kit,' but it's incomplete for what actually happens on a trip: blisters, scrapes, and headaches are the most common issues, not major injuries.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "headlamp",
@@ -326,6 +367,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "Hands-free light for camp tasks after dark, plus spare batteries.",
     why: "People remember the headlamp and forget the spare batteries — which is the same as not having a backup at all.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "sunscreen",
@@ -333,6 +375,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "safety",
     what: "Sun protection for exposed skin.",
     why: "Especially important at elevation and in desert parks, where UV exposure is stronger than it feels.",
+    externalLinkType: "shop",
   },
   {
     id: "offline-map",
@@ -341,6 +384,7 @@ export const GEAR_CATALOG: GearItem[] = [
     what: "A physical map or a downloaded offline map, not just your phone's live maps app.",
     why: "Most parks have little to no cell service. People rely on phone maps that stop working the moment they actually need them.",
     commonlyMissed: true,
+    externalLinkType: "shop",
   },
   {
     id: "multi-tool",
@@ -348,6 +392,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "safety",
     what: "A compact tool for small repairs and general utility.",
     why: "Useful often enough (gear repair, food prep, general fixes) that it earns its small amount of space.",
+    externalLinkType: "shop",
   },
   {
     id: "insect-repellent",
@@ -355,6 +400,7 @@ export const GEAR_CATALOG: GearItem[] = [
     category: "safety",
     what: "Protection against mosquitoes and other insects.",
     why: "Park and season dependent — notably relevant in Yosemite's meadow areas in summer.",
+    externalLinkType: "shop",
   },
   {
     id: "vehicle-fuel-plan",

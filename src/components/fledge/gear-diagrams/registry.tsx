@@ -8,6 +8,8 @@ import { WaterFilterDiagram, WATER_FILTER_HOTSPOTS } from "./water-filter-diagra
 interface DiagramEntry {
   Diagram: ComponentType<SVGProps<SVGSVGElement>>;
   hotspots: Hotspot[];
+  /** Must match the SVG's viewBox width/height ratio, or hotspot dots will misalign. */
+  aspectRatio: number;
 }
 
 /**
@@ -16,8 +18,20 @@ interface DiagramEntry {
  * not every gear item needs an interactive diagram.
  */
 export const GEAR_DIAGRAMS: Partial<Record<string, DiagramEntry>> = {
-  tent: { Diagram: TentDiagram, hotspots: TENT_HOTSPOTS },
-  "sleeping-bag": { Diagram: SleepingBagDiagram, hotspots: SLEEPING_BAG_HOTSPOTS },
-  "camp-stove-fuel": { Diagram: CampStoveDiagram, hotspots: CAMP_STOVE_HOTSPOTS },
-  "backup-filter": { Diagram: WaterFilterDiagram, hotspots: WATER_FILTER_HOTSPOTS },
+  tent: { Diagram: TentDiagram, hotspots: TENT_HOTSPOTS, aspectRatio: 320 / 210 },
+  "sleeping-bag": {
+    Diagram: SleepingBagDiagram,
+    hotspots: SLEEPING_BAG_HOTSPOTS,
+    aspectRatio: 200 / 300,
+  },
+  "camp-stove-fuel": {
+    Diagram: CampStoveDiagram,
+    hotspots: CAMP_STOVE_HOTSPOTS,
+    aspectRatio: 260 / 240,
+  },
+  "backup-filter": {
+    Diagram: WaterFilterDiagram,
+    hotspots: WATER_FILTER_HOTSPOTS,
+    aspectRatio: 280 / 220,
+  },
 };

@@ -12,16 +12,26 @@ export interface Hotspot {
 export function HotspotDiagram({
   Diagram,
   hotspots,
+  aspectRatio,
 }: {
   Diagram: ComponentType<SVGProps<SVGSVGElement>>;
   hotspots: Hotspot[];
+  /** Must match the diagram SVG's viewBox width/height ratio, or hotspot percentages will misalign. */
+  aspectRatio: number;
 }) {
   const [activeId, setActiveId] = useState<string | null>(hotspots[0]?.id ?? null);
   const active = hotspots.find((h) => h.id === activeId);
 
   return (
     <div className="rounded-xl border border-border bg-muted/40 p-4">
-      <div className="relative mx-auto aspect-[4/3] w-full max-w-xs text-primary">
+      <div
+        className="relative mx-auto max-w-full text-primary"
+        style={{
+          aspectRatio,
+          width: `${20 * Math.min(aspectRatio, 1)}rem`,
+          maxWidth: "100%",
+        }}
+      >
         <Diagram className="h-full w-full" />
         {hotspots.map((h) => (
           <button

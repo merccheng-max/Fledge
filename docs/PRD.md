@@ -9,11 +9,11 @@ First-time or inexperienced campers planning a trip to a well-known national par
 
 ## Real pain point
 
-Beginners don't know what they don't know. A group can do a reasonable amount of research and still show up underprepared — not because they're careless, but because generic checklists don't explain *why* an item matters or *how much* of something you actually need, and nothing accounts for the specific park, season, or group size. A real example: a group camping in Sequoia brought a tent and nothing else — no ground mat, no sense of how much water to bring, no idea gas stations would be sparse near the park. Nothing they'd read told them what they didn't know to ask.
+Beginners don't know what they don't know. A group can do a reasonable amount of research and still show up underprepared — not because they're careless, but because generic checklists don't explain _why_ an item matters or _how much_ of something you actually need, and nothing accounts for the specific park, season, or group size. A real example: a group camping in Sequoia brought a tent and nothing else — no ground mat, no sense of how much water to bring, no idea gas stations would be sparse near the park. Nothing they'd read told them what they didn't know to ask.
 
 ## Market gap
 
-- **Generic packing-list generators** (PackPoint, REI checklists) give you *what* to bring, not *why*, and don't reason about quantities relative to your specific group size and trip length.
+- **Generic packing-list generators** (PackPoint, REI checklists) give you _what_ to bring, not _why_, and don't reason about quantities relative to your specific group size and trip length.
 - **Discovery apps** (AllTrails, campground finders) solve "where should I go," not "am I actually ready."
 - **Nobody combines** quantity-reasoned recommendations, a beginner-first education layer, and trip-specific context (weather, crowd levels) in one flow.
 
@@ -23,7 +23,7 @@ Fledge asks for a park, arrival date, trip length, and group size, then produces
 
 1. A full gear checklist, grouped by category, with quantities shown as math (e.g. "24 gal total — 2 gal/person/day × 3 days × 4 people") rather than a flat number.
 2. A plain-English "what it is / why you need it" explainer for every item, with commonly-missed items visually flagged.
-3. Interactive labeled diagrams for items where understanding the *parts* matters (tent, sleeping bag, camp stove, water filter) — tap a point to learn what it does.
+3. Interactive labeled diagrams for items where understanding the _parts_ matters (tent, sleeping bag, camp stove, water filter) — tap a point to learn what it does.
 4. Live weather when the trip falls within the ~7-day forecast window, with an honest fallback to historical seasonal notes when it doesn't (most national park reservations are made months out, so this is the common case, not the edge case).
 5. A historical crowd-level indicator per park/month, clearly labeled as directional, not live data.
 6. A chatbot scoped to the user's actual trip — grounded in their specific park, dates, and generated checklist, not an open-ended assistant — for follow-up questions ("why do I need a groundsheet," "how was that water number calculated").

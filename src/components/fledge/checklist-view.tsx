@@ -8,7 +8,7 @@ import type { Checklist, ChecklistItem } from "@/data/checklist-engine";
 import { CATEGORY_ICONS } from "./category-icons";
 import { GearDetailSheet } from "./gear-detail-sheet";
 
-export function ChecklistView({ checklist }: { checklist: Checklist }) {
+export function ChecklistView({ checklist, parkName }: { checklist: Checklist; parkName: string }) {
   const [selectedItem, setSelectedItem] = useState<ChecklistItem | null>(null);
 
   return (
@@ -61,6 +61,7 @@ export function ChecklistView({ checklist }: { checklist: Checklist }) {
 
       <GearDetailSheet
         item={selectedItem}
+        parkName={parkName}
         onOpenChange={(open) => !open && setSelectedItem(null)}
       />
     </div>

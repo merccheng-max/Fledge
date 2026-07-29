@@ -2,42 +2,107 @@ import type { SVGProps } from "react";
 
 export function WaterFilterDiagram(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 260 220" fill="none" {...props}>
-      {/* filter cartridge */}
-      <rect x="100" y="65" width="60" height="110" rx="20" stroke="currentColor" strokeWidth="3" />
-      <line
-        x1="100"
-        y1="100"
-        x2="160"
-        y2="100"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeDasharray="4 4"
-        opacity="0.6"
-      />
-      <line
-        x1="100"
-        y1="140"
-        x2="160"
-        y2="140"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeDasharray="4 4"
-        opacity="0.6"
-      />
+    <svg viewBox="0 0 280 220" fill="none" {...props}>
       {/* intake hose to source */}
-      <path d="M100,90 C70,80 45,70 30,58" stroke="currentColor" strokeWidth="3" />
       <path
-        d="M15,50 C22,55 28,50 35,55 C42,60 48,55 55,60"
+        d="M92,108 C65,118 48,128 38,142"
         stroke="currentColor"
-        strokeWidth="2"
-        opacity="0.5"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        fill="none"
       />
-      {/* output hose to clean cup */}
-      <path d="M160,150 C185,165 200,175 210,188" stroke="currentColor" strokeWidth="3" />
-      <path d="M195,188 L225,188 L218,208 L202,208 Z" stroke="currentColor" strokeWidth="2.5" />
-      {/* pump handle */}
-      <rect x="118" y="42" width="24" height="26" rx="4" stroke="currentColor" strokeWidth="2.5" />
+      <path
+        d="M14,146 C20,140 26,152 32,146 C38,140 44,152 50,146"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        opacity="0.55"
+        fill="none"
+      />
+
+      {/* output hose to bottle */}
+      <path
+        d="M188,116 C210,128 222,138 228,152"
+        stroke="currentColor"
+        strokeWidth="3.5"
+        strokeLinecap="round"
+        fill="none"
+      />
+
+      {/* clean water bottle */}
+      <rect
+        x="216"
+        y="150"
+        width="24"
+        height="10"
+        rx="3"
+        fill="currentColor"
+        fillOpacity="0.16"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
+      <path
+        d="M204,168 C204,162 210,160 228,160 C246,160 252,162 252,168 L252,196 C252,206 240,212 228,212 C216,212 204,206 204,196 Z"
+        fill="currentColor"
+        fillOpacity="0.14"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+      <path d="M210,178 L246,178" stroke="currentColor" strokeWidth="1.8" opacity="0.35" />
+
+      {/* filter cartridge body (horizontal pill) */}
+      <rect
+        x="90"
+        y="85"
+        width="100"
+        height="50"
+        rx="25"
+        fill="currentColor"
+        fillOpacity="0.16"
+        stroke="currentColor"
+        strokeWidth="3.5"
+      />
+      <line
+        x1="115"
+        y1="90"
+        x2="115"
+        y2="130"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        opacity="0.4"
+      />
+      <line
+        x1="165"
+        y1="90"
+        x2="165"
+        y2="130"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        opacity="0.4"
+      />
+
+      {/* pump T-handle */}
+      <rect
+        x="134"
+        y="52"
+        width="12"
+        height="35"
+        fill="currentColor"
+        fillOpacity="0.16"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
+      <rect
+        x="112"
+        y="42"
+        width="56"
+        height="11"
+        rx="5.5"
+        fill="currentColor"
+        fillOpacity="0.18"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
     </svg>
   );
 }
@@ -46,7 +111,7 @@ export const WATER_FILTER_HOTSPOTS = [
   {
     id: "cartridge",
     x: 50,
-    y: 55,
+    y: 50,
     label: "Filter cartridge",
     description:
       "The actual membrane doing the work — it strains out bacteria and protozoa. It degrades over time and can clog, so check your specific filter's rated lifespan.",
@@ -54,22 +119,22 @@ export const WATER_FILTER_HOTSPOTS = [
   {
     id: "pump",
     x: 50,
-    y: 24,
-    label: "Pump / squeeze mechanism",
+    y: 21,
+    label: "Pump handle",
     description:
-      "Forces water through the cartridge. Some filters squeeze by hand, others use a pump lever like this.",
+      "Forces water through the cartridge. Some filters squeeze by hand instead of pumping like this one.",
   },
   {
     id: "intake",
-    x: 15,
-    y: 25,
+    x: 12,
+    y: 66,
     label: "Intake (dirty water)",
     description: "Draws untreated water in from a stream, lake, or other natural source.",
   },
   {
     id: "output",
-    x: 80,
-    y: 88,
+    x: 84,
+    y: 85,
     label: "Output (clean water)",
     description:
       "Filtered water comes out here — safe to drink straight from this side, never from the intake side.",

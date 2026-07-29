@@ -13,16 +13,43 @@ import { CATEGORY_ICONS } from "./category-icons";
 import { HotspotDiagram } from "./hotspot-diagram";
 import { GEAR_DIAGRAMS } from "./gear-diagrams/registry";
 
+function getExternalLink(
+  item: ChecklistItem,
+  parkName: string,
+): { label: string; url: string } | null {
+  switch (item.externalLinkType) {
+    case "shop":
+      return {
+        label: "Shop this on REI",
+        url: `https://www.rei.com/search?q=${encodeURIComponent(item.name)}`,
+      };
+    case "official-reservation":
+      return {
+        label: "Reserve on Recreation.gov",
+        url: `https://www.recreation.gov/search?q=${encodeURIComponent(parkName)}&inventory_type=camping`,
+      };
+    case "official-pass":
+      return {
+        label: "Learn about park passes (NPS.gov)",
+        url: "https://www.nps.gov/planyourvisit/passes.htm",
+      };
+    default:
+      return null;
+  }
+}
+
 export function GearDetailSheet({
   item,
+  parkName,
   onOpenChange,
 }: {
   item: ChecklistItem | null;
+  parkName: string;
   onOpenChange: (open: boolean) => void;
 }) {
   const Icon = item ? CATEGORY_ICONS[item.category] : null;
   const diagram = item ? GEAR_DIAGRAMS[item.id] : undefined;
-  const shopUrl = item ? `https://www.rei.com/search?q=${encodeURIComponent(item.name)}` : null;
+  const externalLink = item ? getExternalLink(item, parkName) : null;
 
   return (
     <Sheet open={item !== null} onOpenChange={onOpenChange}>
@@ -51,7 +78,13 @@ export function GearDetailSheet({
             </SheetHeader>
 
             <div className="mt-6 space-y-6">
-              {diagram && <HotspotDiagram Diagram={diagram.Diagram} hotspots={diagram.hotspots} />}
+              {diagram && (
+                <HotspotDiagram
+                  Diagram={diagram.Diagram}
+                  hotspots={diagram.hotspots}
+                  aspectRatio={diagram.aspectRatio}
+                />
+              )}
 
               <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
@@ -76,14 +109,14 @@ export function GearDetailSheet({
                 </div>
               )}
 
-              {item.commonlyMissed && shopUrl && (
+              {externalLink && (
                 <a
-                  href={shopUrl}
+                  href={externalLink.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover-lift inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
                 >
-                  Shop this on REI
+                  {externalLink.label}
                   <ExternalLink className="h-3.5 w-3.5" />
                 </a>
               )}

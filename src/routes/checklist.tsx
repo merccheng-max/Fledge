@@ -102,7 +102,7 @@ function ChecklistPage() {
         )}
 
         <div className="mt-10">
-          <ChecklistView checklist={checklist} />
+          <ChecklistView checklist={checklist} parkName={park.name} />
         </div>
 
         <div className="mt-10">
