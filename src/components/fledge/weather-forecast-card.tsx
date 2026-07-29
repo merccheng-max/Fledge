@@ -31,7 +31,7 @@ export function WeatherForecastCard({
   }, [lat, lon, startDate, days]);
 
   return (
-    <Card className="p-4">
+    <Card className="hover-lift p-4">
       <div className="flex items-center gap-2">
         <CloudSun className="h-4 w-4 text-primary" />
         <h3 className="font-display text-base font-semibold text-foreground">Weather</h3>
@@ -53,8 +53,12 @@ export function WeatherForecastCard({
 
       {result !== "loading" && result.available && (
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {result.days.map((day) => (
-            <div key={day.date} className="rounded-lg bg-muted p-3">
+          {result.days.map((day, i) => (
+            <div
+              key={day.date}
+              className="hover-lift animate-in fade-in zoom-in-95 rounded-lg bg-muted p-3 duration-300"
+              style={{ animationDelay: `${i * 60}ms`, animationFillMode: "backwards" }}
+            >
               <p className="text-xs font-medium text-muted-foreground">{day.label}</p>
               <p className="mt-1 text-sm font-semibold text-foreground">
                 {day.highF !== null ? `${day.highF}°` : "—"} /{" "}

@@ -70,16 +70,21 @@ function ChecklistPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="mx-auto max-w-2xl px-6 py-16">
-        <p className="text-sm font-medium text-primary">Your trip</p>
-        <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-foreground">
-          {park.name}
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {formattedDate} · {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
-          {search.group === 1 ? "person" : "people"}
-        </p>
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <p className="text-sm font-medium text-primary">Your trip</p>
+          <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-foreground">
+            {park.name}
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {formattedDate} · {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
+            {search.group === 1 ? "person" : "people"}
+          </p>
+        </div>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <div
+          className="mt-6 grid animate-in fade-in slide-in-from-bottom-4 gap-3 duration-500 delay-100 sm:grid-cols-2"
+          style={{ animationFillMode: "backwards" }}
+        >
           <WeatherForecastCard
             lat={park.coordinates.lat}
             lon={park.coordinates.lon}
@@ -138,7 +143,7 @@ function ChecklistPage() {
 
 function NoteCard({ text }: { text: string }) {
   return (
-    <div className="flex items-start gap-2.5 rounded-lg border border-accent/30 bg-accent/10 p-3.5">
+    <div className="hover-lift flex items-start gap-2.5 rounded-lg border border-accent/30 bg-accent/10 p-3.5">
       <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
       <p className="text-sm leading-relaxed text-foreground">{text}</p>
     </div>

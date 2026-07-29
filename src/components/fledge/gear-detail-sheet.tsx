@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import type { ChecklistItem } from "@/data/checklist-engine";
+import { CATEGORY_ICONS } from "./category-icons";
 
 export function GearDetailSheet({
   item,
@@ -17,6 +18,8 @@ export function GearDetailSheet({
   item: ChecklistItem | null;
   onOpenChange: (open: boolean) => void;
 }) {
+  const Icon = item ? CATEGORY_ICONS[item.category] : null;
+
   return (
     <Sheet open={item !== null} onOpenChange={onOpenChange}>
       <SheetContent>
@@ -24,6 +27,11 @@ export function GearDetailSheet({
           <>
             <SheetHeader>
               <div className="flex items-center gap-2">
+                {Icon && (
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                )}
                 <SheetTitle className="font-display text-xl">{item.name}</SheetTitle>
                 {item.commonlyMissed && (
                   <Badge variant="secondary" className="bg-accent/15 text-accent">

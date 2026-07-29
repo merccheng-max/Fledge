@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
+import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,11 +43,17 @@ export function TripInputForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-500"
+    >
       <div className="space-y-2">
-        <Label htmlFor="park">Where are you camping?</Label>
+        <Label htmlFor="park" className="flex items-center gap-1.5">
+          <MapPin className="h-3.5 w-3.5 text-primary" />
+          Where are you camping?
+        </Label>
         <Select value={parkId} onValueChange={setParkId}>
-          <SelectTrigger id="park">
+          <SelectTrigger id="park" className="transition-shadow hover:shadow-sm">
             <SelectValue placeholder="Choose a park" />
           </SelectTrigger>
           <SelectContent>
@@ -60,13 +67,17 @@ export function TripInputForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="startDate">When do you arrive?</Label>
+        <Label htmlFor="startDate" className="flex items-center gap-1.5">
+          <CalendarDays className="h-3.5 w-3.5 text-primary" />
+          When do you arrive?
+        </Label>
         <Input
           id="startDate"
           type="date"
           min={todayIso()}
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
+          className="transition-shadow hover:shadow-sm"
         />
       </div>
 
@@ -80,10 +91,14 @@ export function TripInputForm() {
             max={14}
             value={days}
             onChange={(e) => setDays(e.target.value)}
+            className="transition-shadow hover:shadow-sm"
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="group">Group size</Label>
+          <Label htmlFor="group" className="flex items-center gap-1.5">
+            <Users className="h-3.5 w-3.5 text-primary" />
+            Group size
+          </Label>
           <Input
             id="group"
             type="number"
@@ -91,12 +106,14 @@ export function TripInputForm() {
             max={20}
             value={groupSize}
             onChange={(e) => setGroupSize(e.target.value)}
+            className="transition-shadow hover:shadow-sm"
           />
         </div>
       </div>
 
-      <Button type="submit" size="lg" className="w-full" disabled={!isValid}>
+      <Button type="submit" size="lg" className="group w-full" disabled={!isValid}>
         Build my trip
+        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
       </Button>
     </form>
   );

@@ -143,11 +143,25 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    background-image: radial-gradient(oklch(0.38 0.08 152 / 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
   }
 
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .hover-lift {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px -8px oklch(0.26 0.03 50 / 0.18);
   }
 }

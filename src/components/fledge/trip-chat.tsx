@@ -39,7 +39,7 @@ export function TripChat({ tripContext }: { tripContext: unknown }) {
   }
 
   return (
-    <Card className="p-4">
+    <Card className="hover-lift p-4">
       <div className="flex items-center gap-2">
         <MessageCircle className="h-4 w-4 text-primary" />
         <h3 className="font-display text-base font-semibold text-foreground">
@@ -56,7 +56,7 @@ export function TripChat({ tripContext }: { tripContext: unknown }) {
             <div
               key={i}
               className={cn(
-                "max-w-[85%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed",
+                "animate-in fade-in slide-in-from-bottom-2 max-w-[85%] rounded-lg px-3.5 py-2.5 text-sm leading-relaxed duration-300",
                 message.role === "user"
                   ? "ml-auto bg-primary text-primary-foreground"
                   : "bg-muted text-foreground",
@@ -83,7 +83,12 @@ export function TripChat({ tripContext }: { tripContext: unknown }) {
           placeholder="e.g. Why do I need a groundsheet?"
           disabled={isLoading}
         />
-        <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+        <Button
+          type="submit"
+          size="icon"
+          disabled={isLoading || !input.trim()}
+          className="transition-transform active:scale-95"
+        >
           <Send className="h-4 w-4" />
         </Button>
       </form>
