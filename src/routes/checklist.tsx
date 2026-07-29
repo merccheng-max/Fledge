@@ -30,7 +30,7 @@ function ChecklistPage() {
 
   if (!park) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen">
         <Header />
         <main className="mx-auto max-w-md px-6 py-16 text-center">
           <h1 className="font-display text-2xl font-semibold text-foreground">
@@ -67,7 +67,7 @@ function ChecklistPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
       <main className="mx-auto max-w-2xl px-6 py-16">
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">

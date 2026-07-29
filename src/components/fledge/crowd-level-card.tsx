@@ -13,7 +13,7 @@ const LEVEL_STYLES: Record<CrowdLevel, string> = {
 
 export function CrowdLevelCard({ level, note }: { level: CrowdLevel; note: string }) {
   return (
-    <Card className="hover-lift p-4">
+    <Card className="hover-lift bg-card/85 p-4 backdrop-blur-sm">
       <div className="flex items-center gap-2">
         <Users className="h-4 w-4 text-primary" />
         <h3 className="font-display text-base font-semibold text-foreground">

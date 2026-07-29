@@ -28,7 +28,7 @@ export function ChecklistView({ checklist }: { checklist: Checklist }) {
               <Icon className="h-4 w-4 text-primary" />
               {CATEGORY_LABELS[group.category]}
             </h2>
-            <Card className="mt-3 divide-y divide-border overflow-hidden py-0">
+            <Card className="mt-3 divide-y divide-border overflow-hidden bg-card/85 py-0 backdrop-blur-sm">
               {group.items.map((item) => (
                 <button
                   key={item.id}

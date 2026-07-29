@@ -39,7 +39,7 @@ export function TripChat({ tripContext }: { tripContext: unknown }) {
   }
 
   return (
-    <Card className="hover-lift p-4">
+    <Card className="hover-lift bg-card/85 p-4 backdrop-blur-sm">
       <div className="flex items-center gap-2">
         <MessageCircle className="h-4 w-4 text-primary" />
         <h3 className="font-display text-base font-semibold text-foreground">

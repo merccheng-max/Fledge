@@ -9,7 +9,7 @@ export const Route = createFileRoute("/plan")({
 
 function PlanPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <Header />
       <main className="mx-auto max-w-md px-6 py-16">
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
