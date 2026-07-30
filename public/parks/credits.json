@@ -1,0 +1,42 @@
+{
+  "yosemite": {
+    "title": "Scenic view of half dome from another peak in Yosemite national park.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AScenic_view_of_half_dome_from_another_peak_in_Yosemite_national_park.jpg",
+    "author": "Gentry George, U.S. Fish and Wildlife Service",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "http://www.public-domain-image.com/public-domain-images-pictures-free-stock-photos/nature-landscapes-public-domain-images-pictures/peaks-public-domain-images-pictures/scenic-view-of-half-dome-from-another-peak-in-yosemite-national-park.jpg"
+  },
+  "sequoia-kings-canyon": {
+    "title": "A group of five large sequoias near Sunset Rock in the Giant Forest sequoia grove. (fdb61f37-f973-4efe-b2ba-18aa9957dba8).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AA_group_of_five_large_sequoias_near_Sunset_Rock_in_the_Giant_Forest_sequoia_grove._%28fdb61f37-f973-4efe-b2ba-18aa9957dba8%29.jpg",
+    "author": "NPS",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "NPGallery"
+  },
+  "joshua-tree": {
+    "title": "Joshua Tree Silhouette (53269286362).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AJoshua_Tree_Silhouette_%2853269286362%29.jpg",
+    "author": "Joshua Tree National Park",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Joshua Tree Silhouette"
+  },
+  "death-valley": {
+    "title": "Death Valley National Park - HCP - October 06, 2022 - 004 - Zabriskie Point.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3ADeath_Valley_National_Park_-_HCP_-_October_06%2C_2022_-_004_-_Zabriskie_Point.jpg",
+    "author": "Vulturesong",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "credit": "Own work"
+  },
+  "zion": {
+    "title": "The South Entrance to Zion Canyon includes views of several prominent peaks. (9ca6e90c-1dd8-b71b-0b60-006234636e16).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AThe_South_Entrance_to_Zion_Canyon_includes_views_of_several_prominent_peaks._%289ca6e90c-1dd8-b71b-0b60-006234636e16%29.jpg",
+    "author": "NPS Photo",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "NPGallery"
+  }
+}
