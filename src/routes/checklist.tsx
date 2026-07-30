@@ -70,15 +70,23 @@ function ChecklistPage() {
     <div className="min-h-screen">
       <Header />
       <main className="mx-auto max-w-2xl px-6 py-16">
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <p className="text-sm font-medium text-primary">Your trip</p>
-          <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-foreground">
-            {park.name}
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {formattedDate} · {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
-            {search.group === 1 ? "person" : "people"}
-          </p>
+        <div className="animate-in fade-in slide-in-from-bottom-4 relative overflow-hidden rounded-2xl shadow-md duration-500">
+          <img
+            src={`/parks/${park.id}.jpg`}
+            alt={park.name}
+            className="h-56 w-full object-cover sm:h-72"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+            <p className="text-sm font-medium text-accent">Your trip</p>
+            <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-white">
+              {park.name}
+            </h1>
+            <p className="mt-1.5 text-sm text-white/85">
+              {formattedDate} · {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
+              {search.group === 1 ? "person" : "people"}
+            </p>
+          </div>
         </div>
 
         <div
