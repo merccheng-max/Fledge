@@ -1,0 +1,34 @@
+{
+  "camping": {
+    "title": "Campsite at Hidden Valley Campground (51318098888).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3ACampsite%20at%20Hidden%20Valley%20Campground%20%2851318098888%29.jpg",
+    "author": "Joshua Tree National Park",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Campsite at Hidden Valley Campground"
+  },
+  "hiking": {
+    "title": "Mary's Rock Hiker on a Sunny Day (51842670869).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AMary%27s%20Rock%20Hiker%20on%20a%20Sunny%20Day%20%2851842670869%29.jpg",
+    "author": "ShenandoahNPS",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Mary's Rock Hiker on a Sunny Day"
+  },
+  "backpacking": {
+    "title": "Backpackers above the river in Black Canyon of the Yellowstone (28585147478).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3ABackpackers%20above%20the%20river%20in%20Black%20Canyon%20of%20the%20Yellowstone%20%2828585147478%29.jpg",
+    "author": "Yellowstone National Park",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Backpackers above the river in Black Canyon of the Yellowstone"
+  },
+  "mountaineering": {
+    "title": "A mountaineering volunteer in Denali (376af251-1dd8-b71c-07e5-561d6c2c662c).JPG",
+    "source": "https://commons.wikimedia.org/wiki/File%3AA%20mountaineering%20volunteer%20in%20Denali%20%28376af251-1dd8-b71c-07e5-561d6c2c662c%29.JPG",
+    "author": "NPS Photo",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "NPGallery"
+  }
+}

@@ -38,5 +38,53 @@
     "license": "Public domain",
     "license_url": "",
     "credit": "NPGallery"
+  },
+  "grand-canyon": {
+    "title": "Grand Canyon National Park, Sunrise February 10, 2013 1389 - Flickr - Grand Canyon NPS.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AGrand%20Canyon%20National%20Park%2C%20Sunrise%20February%2010%2C%202013%201389%20-%20Flickr%20-%20Grand%20Canyon%20NPS.jpg",
+    "author": "Grand Canyon National Park",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Grand Canyon National Park: Sunrise February 10, 2013 1389"
+  },
+  "yellowstone": {
+    "title": "Grand Canyon of the Yellowstone from Brink of the Lower Falls viewing area (53041958364).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AGrand%20Canyon%20of%20the%20Yellowstone%20from%20Brink%20of%20the%20Lower%20Falls%20viewing%20area%20%2853041958364%29.jpg",
+    "author": "YellowstoneNPS",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Grand Canyon of the Yellowstone from Brink of the Lower Falls viewing area"
+  },
+  "rocky-mountain": {
+    "title": "Rocky mountain national park.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3ARocky%20mountain%20national%20park.jpg",
+    "author": "NPS Natural Resources",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "https://www.flickr.com/photos/130826934@N07/32443290368"
+  },
+  "grand-teton": {
+    "title": "Snake River Overlook (32804892492).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3ASnake%20River%20Overlook%20%2832804892492%29.jpg",
+    "author": "GrandTetonNPS",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Snake River Overlook"
+  },
+  "great-smoky-mountains": {
+    "title": "Oconaluftee Valley Overlook sunrise, April 2018--Thom McManus (27493188788).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AOconaluftee%20Valley%20Overlook%20sunrise%2C%20April%202018--Thom%20McManus%20%2827493188788%29.jpg",
+    "author": "Great Smoky Mountains National Park from Gatlinburg, TN",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Oconaluftee Valley Overlook sunrise, April 2018--Thom McManus"
+  },
+  "glacier": {
+    "title": "Going-to-the-Sun Road at Sunrise (51510852367).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File%3AGoing-to-the-Sun%20Road%20at%20Sunrise%20%2851510852367%29.jpg",
+    "author": "GlacierNPS",
+    "license": "Public domain",
+    "license_url": "",
+    "credit": "Going-to-the-Sun Road at Sunrise"
   }
 }
