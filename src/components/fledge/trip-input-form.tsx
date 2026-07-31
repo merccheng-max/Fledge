@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, CalendarDays, Compass, MapPin, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -17,8 +17,6 @@ import {
 import { ACTIVITY_LABELS, type ActivityType } from "@/data/gear";
 import { PARKS } from "@/data/parks";
 
-const ACTIVITY_OPTIONS: ActivityType[] = ["camping", "hiking", "backpacking", "mountaineering"];
-
 function toIso(date: Date): string {
   const y = date.getFullYear();
   const m = String(date.getMonth() + 1).padStart(2, "0");
@@ -26,9 +24,14 @@ function toIso(date: Date): string {
   return `${y}-${m}-${d}`;
 }
 
-export function TripInputForm() {
+export function TripInputForm({
+  activity,
+  onChangeActivity,
+}: {
+  activity: ActivityType;
+  onChangeActivity: () => void;
+}) {
   const navigate = useNavigate();
-  const [activity, setActivity] = useState<ActivityType>("camping");
   const [parkId, setParkId] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [datePopoverOpen, setDatePopoverOpen] = useState(false);
@@ -39,13 +42,6 @@ export function TripInputForm() {
     () => PARKS.filter((park) => park.supportedActivities.includes(activity)),
     [activity],
   );
-
-  function handleActivityChange(next: ActivityType) {
-    setActivity(next);
-    if (parkId && !PARKS.find((p) => p.id === parkId)?.supportedActivities.includes(next)) {
-      setParkId("");
-    }
-  }
 
   const isValid = parkId !== "" && !!selectedDate && Number(days) > 0 && Number(groupSize) > 0;
 
@@ -70,26 +66,15 @@ export function TripInputForm() {
       onSubmit={handleSubmit}
       className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-500"
     >
-      <div className="space-y-2">
-        <Label htmlFor="activity" className="flex items-center gap-1.5">
-          <Compass className="h-3.5 w-3.5 text-primary" />
-          What kind of trip is this?
-        </Label>
-        <Select
-          value={activity}
-          onValueChange={(value) => handleActivityChange(value as ActivityType)}
+      <div className="flex items-center justify-between rounded-lg bg-muted px-4 py-3">
+        <span className="text-sm font-medium text-foreground">{ACTIVITY_LABELS[activity]}</span>
+        <button
+          type="button"
+          onClick={onChangeActivity}
+          className="text-xs font-medium text-primary hover:underline"
         >
-          <SelectTrigger id="activity" className="transition-shadow hover:shadow-sm">
-            <SelectValue placeholder="Choose an activity" />
-          </SelectTrigger>
-          <SelectContent>
-            {ACTIVITY_OPTIONS.map((option) => (
-              <SelectItem key={option} value={option}>
-                {ACTIVITY_LABELS[option]}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+          Change
+        </button>
       </div>
 
       <div className="space-y-2">

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, ExternalLink } from "lucide-react";
 
 import { Header } from "@/components/fledge/header";
 import { ChecklistView } from "@/components/fledge/checklist-view";
@@ -9,7 +9,7 @@ import { CrowdLevelCard } from "@/components/fledge/crowd-level-card";
 import { TripChat } from "@/components/fledge/trip-chat";
 import { Button } from "@/components/ui/button";
 import { generateChecklist } from "@/data/checklist-engine";
-import { ACTIVITY_LABELS } from "@/data/gear";
+import { ACTIVITY_LABELS, type ActivityType } from "@/data/gear";
 import { getParkById, monthToSeason } from "@/data/parks";
 
 // Parks we have real, rights-cleared hero photography for (see public/parks/CREDITS.md).
@@ -129,6 +129,12 @@ function ChecklistPage() {
           </div>
         )}
 
+        {search.activity !== "camping" && (
+          <div className="mt-3">
+            <TrailLinksCard parkName={park.name} activity={search.activity} />
+          </div>
+        )}
+
         <div className="mt-10">
           <ChecklistView checklist={checklist} parkName={park.name} />
         </div>
@@ -175,6 +181,34 @@ function NoteCard({ text }: { text: string }) {
     <div className="hover-lift flex items-start gap-2.5 rounded-lg border border-accent/30 bg-accent/10 p-3.5">
       <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
       <p className="text-sm leading-relaxed text-foreground">{text}</p>
+    </div>
+  );
+}
+
+// Fledge doesn't have trail-by-trail route data, so this points to a durable search
+// rather than a guessed specific trail-database URL (which risks a confidently wrong link).
+function TrailLinksCard({ parkName, activity }: { parkName: string; activity: ActivityType }) {
+  const query =
+    activity === "mountaineering"
+      ? `${parkName} mountaineering routes conditions`
+      : `${parkName} ${activity} trails`;
+  const label =
+    activity === "mountaineering" ? "Research routes & conditions" : "Find trails at this park";
+
+  return (
+    <div className="hover-lift flex items-center justify-between gap-3 rounded-lg border border-border bg-card/85 p-3.5">
+      <p className="text-sm text-muted-foreground">
+        Fledge doesn't have trail-by-trail route data yet — start here for current conditions.
+      </p>
+      <a
+        href={`https://www.google.com/search?q=${encodeURIComponent(query)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+      >
+        {label}
+        <ExternalLink className="h-3.5 w-3.5" />
+      </a>
     </div>
   );
 }

@@ -4,6 +4,8 @@ import { TentDiagram, TENT_HOTSPOTS } from "./tent-diagram";
 import { SleepingBagDiagram, SLEEPING_BAG_HOTSPOTS } from "./sleeping-bag-diagram";
 import { CampStoveDiagram, CAMP_STOVE_HOTSPOTS } from "./camp-stove-diagram";
 import { WaterFilterDiagram, WATER_FILTER_HOTSPOTS } from "./water-filter-diagram";
+import { IceAxeDiagram, ICE_AXE_HOTSPOTS } from "./ice-axe-diagram";
+import { BackpackingPackDiagram, BACKPACKING_PACK_HOTSPOTS } from "./backpacking-pack-diagram";
 
 interface DiagramEntry {
   Diagram: ComponentType<SVGProps<SVGSVGElement>>;
@@ -33,5 +35,11 @@ export const GEAR_DIAGRAMS: Partial<Record<string, DiagramEntry>> = {
     Diagram: WaterFilterDiagram,
     hotspots: WATER_FILTER_HOTSPOTS,
     aspectRatio: 280 / 220,
+  },
+  "ice-axe": { Diagram: IceAxeDiagram, hotspots: ICE_AXE_HOTSPOTS, aspectRatio: 140 / 300 },
+  "backpacking-pack": {
+    Diagram: BackpackingPackDiagram,
+    hotspots: BACKPACKING_PACK_HOTSPOTS,
+    aspectRatio: 220 / 300,
   },
 };
