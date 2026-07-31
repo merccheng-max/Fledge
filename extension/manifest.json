@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Fledge Trip Fit Score",
+  "version": "0.1.0",
+  "description": "Check how well a product fits your Fledge camping trip before you buy it — scored against the trip's actual requirements, not review sentiment.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage"],
+  "optional_host_permissions": ["*://*/*"],
+  "host_permissions": ["*://*.rei.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.rei.com/product/*"],
+      "js": ["gear-catalog.js", "content-rei.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

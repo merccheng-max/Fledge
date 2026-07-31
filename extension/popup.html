@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fledge Trip Fit Score</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <h1>Fledge trip fit score</h1>
+
+    <section>
+      <label for="app-url">Your Fledge app URL</label>
+      <div class="row">
+        <input id="app-url" type="url" placeholder="https://your-fledge-app.example.com" />
+        <button id="save-url">Save</button>
+      </div>
+      <p class="hint">One-time setup. Needed so the extension can reach your checklist logic.</p>
+    </section>
+
+    <section>
+      <label for="trip-link">Your trip link</label>
+      <div class="row">
+        <input id="trip-link" type="url" placeholder="Paste your /checklist?... URL" />
+        <button id="save-trip">Save</button>
+      </div>
+      <p class="hint">
+        Open your trip on Fledge, copy the page URL, and paste it here. No account needed — the
+        trip is fully described by that link.
+      </p>
+    </section>
+
+    <section id="trip-summary" class="trip-summary hidden">
+      <p class="label">Linked trip</p>
+      <p id="trip-summary-text"></p>
+    </section>
+
+    <p id="status" class="status"></p>
+
+    <footer>
+      On a REI product page, use the "Check fit for trip" button this extension adds near the
+      buy box.
+    </footer>
+  </body>
+  <script src="popup.js"></script>
+</html>

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChecklistRouteImport } from './routes/checklist'
 import { Route as PlanRouteImport } from './routes/plan'
+import { Route as ApiExtensionScoreRouteImport } from './routes/api/extension-score'
 import { Route as ApiTripChatRouteImport } from './routes/api/trip-chat'
 import { Route as ApiWeatherRouteImport } from './routes/api/weather'
 
@@ -30,6 +31,11 @@ const PlanRoute = PlanRouteImport.update({
   path: '/plan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiExtensionScoreRoute = ApiExtensionScoreRouteImport.update({
+  id: '/api/extension-score',
+  path: '/api/extension-score',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiTripChatRoute = ApiTripChatRouteImport.update({
   id: '/api/trip-chat',
   path: '/api/trip-chat',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checklist': typeof ChecklistRoute
   '/plan': typeof PlanRoute
+  '/api/extension-score': typeof ApiExtensionScoreRoute
   '/api/trip-chat': typeof ApiTripChatRoute
   '/api/weather': typeof ApiWeatherRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checklist': typeof ChecklistRoute
   '/plan': typeof PlanRoute
+  '/api/extension-score': typeof ApiExtensionScoreRoute
   '/api/trip-chat': typeof ApiTripChatRoute
   '/api/weather': typeof ApiWeatherRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/checklist': typeof ChecklistRoute
   '/plan': typeof PlanRoute
+  '/api/extension-score': typeof ApiExtensionScoreRoute
   '/api/trip-chat': typeof ApiTripChatRoute
   '/api/weather': typeof ApiWeatherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/checklist' | '/plan' | '/api/trip-chat' | '/api/weather'
+  fullPaths:
+    | '/'
+    | '/checklist'
+    | '/plan'
+    | '/api/extension-score'
+    | '/api/trip-chat'
+    | '/api/weather'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/checklist' | '/plan' | '/api/trip-chat' | '/api/weather'
+  to:
+    | '/'
+    | '/checklist'
+    | '/plan'
+    | '/api/extension-score'
+    | '/api/trip-chat'
+    | '/api/weather'
   id:
     | '__root__'
     | '/'
     | '/checklist'
     | '/plan'
+    | '/api/extension-score'
     | '/api/trip-chat'
     | '/api/weather'
   fileRoutesById: FileRoutesById
@@ -81,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ChecklistRoute: typeof ChecklistRoute
   PlanRoute: typeof PlanRoute
+  ApiExtensionScoreRoute: typeof ApiExtensionScoreRoute
   ApiTripChatRoute: typeof ApiTripChatRoute
   ApiWeatherRoute: typeof ApiWeatherRoute
 }
@@ -108,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/extension-score': {
+      id: '/api/extension-score'
+      path: '/api/extension-score'
+      fullPath: '/api/extension-score'
+      preLoaderRoute: typeof ApiExtensionScoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/trip-chat': {
       id: '/api/trip-chat'
       path: '/api/trip-chat'
@@ -129,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChecklistRoute: ChecklistRoute,
   PlanRoute: PlanRoute,
+  ApiExtensionScoreRoute: ApiExtensionScoreRoute,
   ApiTripChatRoute: ApiTripChatRoute,
   ApiWeatherRoute: ApiWeatherRoute,
 }

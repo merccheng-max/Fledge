@@ -196,3 +196,21 @@ export const PARKS: Park[] = [
 export function getParkById(id: string): Park | undefined {
   return PARKS.find((park) => park.id === id);
 }
+
+/**
+ * Directional estimate of the coldest overnight low a camper should plan for,
+ * used to sanity-check gear like sleeping bags against a trip. Not live or
+ * park-specific data (same honesty level as crowdByMonth) — a rough seasonal
+ * baseline, bumped colder for hot desert parks where the day/night swing is
+ * the whole point of the warning shown elsewhere in the app.
+ */
+export function estimateColdestNightF(park: Park, month: number): number {
+  const season = monthToSeason(month);
+  const baseline: Record<Season, number> = {
+    winter: 15,
+    spring: 32,
+    summer: 40,
+    fall: 30,
+  };
+  return park.isHotDesert ? baseline[season] - 10 : baseline[season];
+}

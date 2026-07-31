@@ -29,7 +29,7 @@ export interface Checklist {
   categories: ChecklistCategoryGroup[];
 }
 
-function computeWater(input: TripInput, isHotDesert: boolean): ComputedQuantity {
+export function computeWater(input: TripInput, isHotDesert: boolean): ComputedQuantity {
   const rate = isHotDesert ? 2 : 1;
   const total = rate * input.days * input.groupSize;
   return {

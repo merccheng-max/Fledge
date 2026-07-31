@@ -1,0 +1,99 @@
+body {
+  width: 320px;
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1f2320;
+}
+
+h1 {
+  font-size: 15px;
+  margin: 0 0 12px;
+}
+
+section {
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+}
+
+input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 12px;
+  border: 1px solid #d8dcd8;
+  border-radius: 6px;
+}
+
+button {
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: #2f5233;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #26421f;
+}
+
+.hint {
+  font-size: 11px;
+  color: #6b7268;
+  margin: 4px 0 0;
+}
+
+.trip-summary {
+  background: #f4f6f2;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.trip-summary .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7268;
+  margin: 0 0 2px;
+}
+
+.trip-summary p:not(.label) {
+  font-size: 12px;
+  margin: 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.status {
+  min-height: 14px;
+  font-size: 12px;
+}
+
+.status.ok {
+  color: #2f5233;
+}
+
+.status.error {
+  color: #b13f2a;
+}
+
+footer {
+  font-size: 11px;
+  color: #6b7268;
+  border-top: 1px solid #e5e8e3;
+  padding-top: 10px;
+}
