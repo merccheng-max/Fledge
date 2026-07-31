@@ -1,8 +1,10 @@
 import {
   Armchair,
+  Compass,
   Droplet,
   FileCheck,
   Flame,
+  Mountain,
   Moon,
   Shirt,
   ShieldAlert,
@@ -25,4 +27,6 @@ export const CATEGORY_ICONS: Record<GearCategory, LucideIcon> = {
   toiletries: Sparkles,
   "camp-comfort": Armchair,
   safety: ShieldAlert,
+  navigation: Compass,
+  technical: Mountain,
 };

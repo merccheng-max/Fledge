@@ -9,13 +9,25 @@ import { CrowdLevelCard } from "@/components/fledge/crowd-level-card";
 import { TripChat } from "@/components/fledge/trip-chat";
 import { Button } from "@/components/ui/button";
 import { generateChecklist } from "@/data/checklist-engine";
+import { ACTIVITY_LABELS } from "@/data/gear";
 import { getParkById, monthToSeason } from "@/data/parks";
+
+// Parks we have real, rights-cleared hero photography for (see public/parks/CREDITS.md).
+// Everything else falls back to a plain gradient panel rather than a broken image.
+const PARKS_WITH_PHOTOS = new Set([
+  "yosemite",
+  "sequoia-kings-canyon",
+  "joshua-tree",
+  "death-valley",
+  "zion",
+]);
 
 const checklistSearchSchema = z.object({
   park: z.string(),
   startDate: z.string(),
   days: z.number().int().min(1).max(60),
   group: z.number().int().min(1).max(100),
+  activity: z.enum(["camping", "hiking", "backpacking", "mountaineering"]).default("camping"),
 });
 
 export const Route = createFileRoute("/checklist")({
@@ -56,6 +68,7 @@ function ChecklistPage() {
     startDate: search.startDate,
     days: search.days,
     groupSize: search.group,
+    activity: search.activity,
   });
   const seasonalNote = park.seasonalNotes[season];
   const crowd = park.crowdByMonth[month];
@@ -71,19 +84,26 @@ function ChecklistPage() {
       <Header />
       <main className="mx-auto max-w-2xl px-6 py-16">
         <div className="animate-in fade-in slide-in-from-bottom-4 relative overflow-hidden rounded-2xl shadow-md duration-500">
-          <img
-            src={`/parks/${park.id}.jpg`}
-            alt={park.name}
-            className="h-56 w-full object-cover sm:h-72"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+          {PARKS_WITH_PHOTOS.has(park.id) ? (
+            <>
+              <img
+                src={`/parks/${park.id}.jpg`}
+                alt={park.name}
+                className="h-56 w-full object-cover sm:h-72"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+            </>
+          ) : (
+            <div className="h-56 w-full bg-gradient-to-br from-primary/80 to-primary sm:h-72" />
+          )}
           <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
             <p className="text-sm font-medium text-accent">Your trip</p>
             <h1 className="mt-1 font-display text-3xl font-semibold tracking-tight text-white">
               {park.name}
             </h1>
             <p className="mt-1.5 text-sm text-white/85">
-              {formattedDate} · {search.days} day{search.days === 1 ? "" : "s"} · {search.group}{" "}
+              {ACTIVITY_LABELS[search.activity]} · {formattedDate} · {search.days} day
+              {search.days === 1 ? "" : "s"} · {search.group}{" "}
               {search.group === 1 ? "person" : "people"}
             </p>
           </div>
@@ -118,6 +138,7 @@ function ChecklistPage() {
             tripContext={{
               park: park.name,
               state: park.state,
+              activity: ACTIVITY_LABELS[search.activity],
               startDate: search.startDate,
               days: search.days,
               groupSize: search.group,

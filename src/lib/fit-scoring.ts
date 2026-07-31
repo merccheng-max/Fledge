@@ -118,7 +118,10 @@ function scoreWaterContainers(
   const reasons: string[] = [];
   let score = 20;
 
-  const required = computeWater({ parkId: park.id, ...input, startDate: "" }, park.isHotDesert);
+  const required = computeWater(
+    { parkId: park.id, ...input, startDate: "", activity: "camping" },
+    park.isHotDesert,
+  );
   const requiredGallons = extractNumber(required.total);
 
   const capacityRaw = findSpecValue(specs, ["capacity", "volume", "size"]);

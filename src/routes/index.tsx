@@ -19,9 +19,10 @@ function Index() {
             Show up ready, even if it's your first time.
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-            Tell Fledge where you're camping, how many days, and who's coming. You'll get a gear
-            list that shows its math, not just a generic checklist, plus a plain-English explanation
-            for everything on it.
+            Tell Fledge where you're headed, what kind of trip it is — car camping, day hiking,
+            backpacking, or mountaineering — and who's coming. You'll get a gear list that shows its
+            math, not just a generic checklist, plus a plain-English explanation for everything on
+            it.
           </p>
           <div className="mt-8">
             <Button asChild size="lg" className="group">
@@ -37,7 +38,7 @@ function Index() {
           <Feature
             icon={<MapPin className="h-5 w-5" />}
             title="Built for real parks"
-            body="Yosemite, Sequoia & Kings Canyon, Joshua Tree, Death Valley, and Zion — each with its own seasonal quirks baked in."
+            body="11 national parks, from Yosemite to Grand Teton, each with its own seasonal quirks and supported activities baked in."
             delay="delay-100"
           />
           <Feature
@@ -58,7 +59,7 @@ function Index() {
       <footer className="mx-auto max-w-4xl px-6 py-10 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
           <Compass className="h-4 w-4" />
-          <span>Fledge — a trip planner for first-time campers.</span>
+          <span>Fledge — a trip planner for first-time campers, hikers, and backpackers.</span>
         </div>
       </footer>
     </div>

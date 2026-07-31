@@ -1,4 +1,10 @@
-import { CATEGORY_ORDER, GEAR_CATALOG, type GearCategory, type GearItem } from "./gear";
+import {
+  CATEGORY_ORDER,
+  GEAR_CATALOG,
+  type ActivityType,
+  type GearCategory,
+  type GearItem,
+} from "./gear";
 import { getParkById } from "./parks";
 
 export interface TripInput {
@@ -7,6 +13,7 @@ export interface TripInput {
   startDate: string;
   days: number;
   groupSize: number;
+  activity: ActivityType;
 }
 
 export interface ComputedQuantity {
@@ -30,12 +37,18 @@ export interface Checklist {
 }
 
 export function computeWater(input: TripInput, isHotDesert: boolean): ComputedQuantity {
-  const rate = isHotDesert ? 2 : 1;
+  const baseRate = isHotDesert ? 2 : 1;
+  const exertionBump = input.activity !== "camping" ? 0.5 : 0;
+  const rate = baseRate + exertionBump;
   const total = rate * input.days * input.groupSize;
+  const notes = [
+    isHotDesert && "bumped up for a hot desert park",
+    exertionBump > 0 && "bumped up for on-foot exertion",
+  ].filter(Boolean);
   return {
     total: `${total} gal total`,
     formula: `${rate} gal/person/day × ${input.days} day${input.days === 1 ? "" : "s"} × ${input.groupSize} people${
-      isHotDesert ? " (bumped up for a hot desert park)" : ""
+      notes.length ? ` (${notes.join(", ")})` : ""
     }`,
   };
 }
@@ -64,7 +77,9 @@ export function generateChecklist(input: TripInput): Checklist {
   const park = getParkById(input.parkId);
   const isHotDesert = park?.isHotDesert ?? false;
 
-  const withQuantities: ChecklistItem[] = GEAR_CATALOG.map((item) => {
+  const forActivity = GEAR_CATALOG.filter((item) => item.activities.includes(input.activity));
+
+  const withQuantities: ChecklistItem[] = forActivity.map((item) => {
     if (!item.hasComputedQuantity) return item;
 
     let quantity: ComputedQuantity | undefined;

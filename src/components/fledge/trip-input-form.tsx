@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, Compass, MapPin, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,7 +14,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ACTIVITY_LABELS, type ActivityType } from "@/data/gear";
 import { PARKS } from "@/data/parks";
+
+const ACTIVITY_OPTIONS: ActivityType[] = ["camping", "hiking", "backpacking", "mountaineering"];
 
 function toIso(date: Date): string {
   const y = date.getFullYear();
@@ -25,11 +28,24 @@ function toIso(date: Date): string {
 
 export function TripInputForm() {
   const navigate = useNavigate();
+  const [activity, setActivity] = useState<ActivityType>("camping");
   const [parkId, setParkId] = useState<string>("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [datePopoverOpen, setDatePopoverOpen] = useState(false);
   const [days, setDays] = useState<string>("3");
   const [groupSize, setGroupSize] = useState<string>("2");
+
+  const availableParks = useMemo(
+    () => PARKS.filter((park) => park.supportedActivities.includes(activity)),
+    [activity],
+  );
+
+  function handleActivityChange(next: ActivityType) {
+    setActivity(next);
+    if (parkId && !PARKS.find((p) => p.id === parkId)?.supportedActivities.includes(next)) {
+      setParkId("");
+    }
+  }
 
   const isValid = parkId !== "" && !!selectedDate && Number(days) > 0 && Number(groupSize) > 0;
 
@@ -44,6 +60,7 @@ export function TripInputForm() {
         startDate: toIso(selectedDate),
         days: Number(days),
         group: Number(groupSize),
+        activity,
       },
     });
   }
@@ -54,22 +71,49 @@ export function TripInputForm() {
       className="animate-in fade-in slide-in-from-bottom-4 space-y-6 duration-500"
     >
       <div className="space-y-2">
+        <Label htmlFor="activity" className="flex items-center gap-1.5">
+          <Compass className="h-3.5 w-3.5 text-primary" />
+          What kind of trip is this?
+        </Label>
+        <Select
+          value={activity}
+          onValueChange={(value) => handleActivityChange(value as ActivityType)}
+        >
+          <SelectTrigger id="activity" className="transition-shadow hover:shadow-sm">
+            <SelectValue placeholder="Choose an activity" />
+          </SelectTrigger>
+          <SelectContent>
+            {ACTIVITY_OPTIONS.map((option) => (
+              <SelectItem key={option} value={option}>
+                {ACTIVITY_LABELS[option]}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="space-y-2">
         <Label htmlFor="park" className="flex items-center gap-1.5">
           <MapPin className="h-3.5 w-3.5 text-primary" />
-          Where are you camping?
+          Where's your trip?
         </Label>
         <Select value={parkId} onValueChange={setParkId}>
           <SelectTrigger id="park" className="transition-shadow hover:shadow-sm">
             <SelectValue placeholder="Choose a park" />
           </SelectTrigger>
           <SelectContent>
-            {PARKS.map((park) => (
+            {availableParks.map((park) => (
               <SelectItem key={park.id} value={park.id}>
                 {park.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+        {availableParks.length === 0 && (
+          <p className="text-xs text-muted-foreground">
+            No parks in our list currently support this activity.
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">

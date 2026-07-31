@@ -4,7 +4,11 @@
 
 const FLEDGE_GEAR_CATALOG = [
   { id: "campground-reservation", name: "Campground reservation confirmation", commonlyMissed: true },
+  { id: "backcountry-permit", name: "Wilderness / backcountry permit", commonlyMissed: true },
   { id: "park-entrance-pass", name: "Park entrance pass", commonlyMissed: false },
+  { id: "day-pack", name: "Day pack", commonlyMissed: false },
+  { id: "backpacking-pack", name: "Backpacking pack", commonlyMissed: true },
+  { id: "trekking-poles", name: "Trekking poles", commonlyMissed: false },
   { id: "tent", name: "Tent", commonlyMissed: false },
   { id: "tent-footprint", name: "Tent footprint / groundsheet", commonlyMissed: true },
   { id: "sleeping-pad", name: "Sleeping pad / ground mat", commonlyMissed: true },
@@ -13,7 +17,7 @@ const FLEDGE_GEAR_CATALOG = [
   { id: "sleeping-bag-liner", name: "Sleeping bag liner", commonlyMissed: true },
   { id: "camp-pillow", name: "Pillow", commonlyMissed: false },
   { id: "water-containers", name: "Water storage containers", commonlyMissed: true },
-  { id: "backup-filter", name: "Backup water filter", commonlyMissed: false },
+  { id: "backup-filter", name: "Water filter or treatment", commonlyMissed: false },
   { id: "camp-stove-fuel", name: "Camp stove + fuel", commonlyMissed: true },
   { id: "cookware", name: "Cookware, utensils, plates & cups", commonlyMissed: false },
   { id: "cooler", name: "Cooler", commonlyMissed: false },
@@ -24,8 +28,15 @@ const FLEDGE_GEAR_CATALOG = [
   { id: "rain-shell", name: "Waterproof / windproof shell", commonlyMissed: true },
   { id: "warm-hat-gloves", name: "Warm hat & gloves", commonlyMissed: false },
   { id: "closed-toe-shoes", name: "Sturdy closed-toe shoes", commonlyMissed: false },
+  { id: "mountaineering-boots", name: "Insulated mountaineering boots", commonlyMissed: false },
+  { id: "gaiters", name: "Gaiters", commonlyMissed: false },
   { id: "extra-socks", name: "Extra socks", commonlyMissed: true },
   { id: "sun-protection-clothing", name: "Sun hat & sunglasses", commonlyMissed: false },
+  { id: "ice-axe", name: "Ice axe", commonlyMissed: false },
+  { id: "crampons", name: "Crampons", commonlyMissed: false },
+  { id: "climbing-helmet", name: "Climbing helmet", commonlyMissed: true },
+  { id: "glacier-travel-kit", name: "Harness, rope & glacier travel kit", commonlyMissed: true },
+  { id: "avalanche-safety-kit", name: "Avalanche beacon, probe & shovel", commonlyMissed: true },
   { id: "toilet-paper", name: "Toilet paper / wet wipes", commonlyMissed: true },
   { id: "hand-sanitizer", name: "Hand sanitizer", commonlyMissed: false },
   { id: "biodegradable-soap", name: "Biodegradable soap", commonlyMissed: false },
@@ -39,6 +50,7 @@ const FLEDGE_GEAR_CATALOG = [
   { id: "multi-tool", name: "Multi-tool", commonlyMissed: false },
   { id: "insect-repellent", name: "Insect repellent", commonlyMissed: false },
   { id: "vehicle-fuel-plan", name: "Fuel or charging plan for your vehicle", commonlyMissed: true },
+  { id: "altitude-acclimatization-plan", name: "Altitude acclimatization plan", commonlyMissed: true },
 ];
 
 // Ids fit-scoring.ts actually has a rule for — everything else scores as "no rule yet."
