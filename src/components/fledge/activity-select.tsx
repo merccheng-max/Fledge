@@ -9,9 +9,13 @@ const ACTIVITY_DESCRIPTIONS: Record<ActivityType, string> = {
   mountaineering: "Technical routes on snow and ice, with real objective hazards.",
 };
 
-// Falls back to a gradient panel until real photography is sourced for each activity —
-// same pattern as the park hero images in checklist.tsx.
-const ACTIVITIES_WITH_PHOTOS = new Set<ActivityType>([]);
+// See public/activities/CREDITS.md for sourcing/license details.
+const ACTIVITIES_WITH_PHOTOS = new Set<ActivityType>([
+  "camping",
+  "hiking",
+  "backpacking",
+  "mountaineering",
+]);
 
 export function ActivitySelect({ onSelect }: { onSelect: (activity: ActivityType) => void }) {
   return (

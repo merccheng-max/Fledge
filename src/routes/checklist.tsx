@@ -20,6 +20,12 @@ const PARKS_WITH_PHOTOS = new Set([
   "joshua-tree",
   "death-valley",
   "zion",
+  "grand-canyon",
+  "yellowstone",
+  "rocky-mountain",
+  "grand-teton",
+  "great-smoky-mountains",
+  "glacier",
 ]);
 
 const checklistSearchSchema = z.object({
