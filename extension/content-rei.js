@@ -65,18 +65,20 @@
     panel.classList.remove("hidden");
   }
 
-  function renderResult(container, response) {
+  function renderResult(container, response, itemId) {
     if (!response.ok) {
       container.innerHTML = `<p class="fledge-fit-error">${response.error}</p>`;
       return;
     }
 
     const { itemName, score, verdict, reasons, commonlyMissed } = response.result;
+    const checkOffHtml = `<button class="fledge-fit-checkoff" data-item-id="${itemId}">Mark as checked off</button><p class="fledge-fit-checkoff-status"></p>`;
 
     if (score === null) {
       container.innerHTML = `
         <p class="fledge-fit-verdict">${verdict}</p>
         <p class="fledge-fit-note">Fit-scoring for "${itemName}" isn't built yet — check it against your checklist manually.</p>
+        ${checkOffHtml}
       `;
       return;
     }
@@ -87,6 +89,7 @@
       <p class="fledge-fit-verdict">${verdict} — ${itemName}</p>
       <ul class="fledge-fit-reasons">${reasonsHtml}</ul>
       ${commonlyMissed ? '<p class="fledge-fit-note">This is one of the items beginners most commonly forget for this kind of trip.</p>' : ""}
+      ${checkOffHtml}
     `;
   }
 
@@ -103,17 +106,34 @@
     });
 
     panel.addEventListener("click", (event) => {
-      if (event.target.id !== "fledge-fit-submit") return;
+      if (event.target.id === "fledge-fit-submit") {
+        const select = panel.querySelector("#fledge-fit-select");
+        const resultEl = panel.querySelector("#fledge-fit-result");
+        resultEl.innerHTML = `<p class="fledge-fit-loading">Scoring…</p>`;
 
-      const select = panel.querySelector("#fledge-fit-select");
-      const resultEl = panel.querySelector("#fledge-fit-result");
-      resultEl.innerHTML = `<p class="fledge-fit-loading">Scoring…</p>`;
+        const itemId = select.value;
+        const specs = extractSpecs();
+        chrome.runtime.sendMessage(
+          { type: "FLEDGE_SCORE_PRODUCT", itemId, specs },
+          (response) =>
+            renderResult(resultEl, response ?? { ok: false, error: "No response." }, itemId),
+        );
+        return;
+      }
 
-      const specs = extractSpecs();
-      chrome.runtime.sendMessage(
-        { type: "FLEDGE_SCORE_PRODUCT", itemId: select.value, specs },
-        (response) => renderResult(resultEl, response ?? { ok: false, error: "No response." }),
-      );
+      if (event.target.classList.contains("fledge-fit-checkoff")) {
+        const itemId = event.target.dataset.itemId;
+        const statusEl = event.target.nextElementSibling;
+        event.target.disabled = true;
+        chrome.runtime.sendMessage({ type: "FLEDGE_SET_CHECKED", itemId }, (response) => {
+          if (response?.ok) {
+            statusEl.textContent = "Checked off ✓";
+          } else {
+            event.target.disabled = false;
+            statusEl.textContent = response?.error ?? "Couldn't check this off.";
+          }
+        });
+      }
     });
   }
 

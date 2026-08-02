@@ -95,6 +95,34 @@
   color: #6b7268;
 }
 
+.fledge-fit-checkoff {
+  width: 100%;
+  margin-top: 10px;
+  padding: 7px;
+  border: 1px solid #2f5233;
+  border-radius: 6px;
+  background: white;
+  color: #2f5233;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.fledge-fit-checkoff:hover {
+  background: #f4f6f2;
+}
+
+.fledge-fit-checkoff:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.fledge-fit-checkoff-status {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #2f5233;
+}
+
 .fledge-fit-error {
   color: #b13f2a;
 }

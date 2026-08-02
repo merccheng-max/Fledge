@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { z } from "zod";
-import { AlertTriangle, ExternalLink } from "lucide-react";
+import { AlertTriangle, BookmarkPlus, ExternalLink, Loader2 } from "lucide-react";
 
 import { Header } from "@/components/fledge/header";
 import { ChecklistView } from "@/components/fledge/checklist-view";
@@ -11,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { generateChecklist } from "@/data/checklist-engine";
 import { ACTIVITY_LABELS, type ActivityType } from "@/data/gear";
 import { getParkById, monthToSeason } from "@/data/parks";
+import { useAuth } from "@/lib/auth";
+import { createTrip } from "@/lib/trips";
+import { useChecklistState } from "@/hooks/use-checklist-state";
 
 // Parks we have real, rights-cleared hero photography for (see public/parks/CREDITS.md).
 // Everything else falls back to a plain gradient panel rather than a broken image.
@@ -34,6 +38,8 @@ const checklistSearchSchema = z.object({
   days: z.number().int().min(1).max(60),
   group: z.number().int().min(1).max(100),
   activity: z.enum(["camping", "hiking", "backpacking", "mountaineering"]).default("camping"),
+  /** Present once a trip has been saved — enables persisted checklist check-offs. */
+  tripId: z.string().optional(),
 });
 
 export const Route = createFileRoute("/checklist")({
@@ -45,6 +51,10 @@ function ChecklistPage() {
   const search = Route.useSearch();
   const navigate = useNavigate();
   const park = getParkById(search.park);
+  const { session } = useAuth();
+  const { checkedMap, toggle, interactive } = useChecklistState(search.tripId);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   if (!park) {
     return (
@@ -84,6 +94,31 @@ function ChecklistPage() {
     day: "numeric",
     year: "numeric",
   });
+
+  async function handleSaveTrip() {
+    if (!session) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const trip = await createTrip({
+        userId: session.user.id,
+        parkId: search.park,
+        activity: search.activity,
+        startDate: search.startDate,
+        days: search.days,
+        groupSize: search.group,
+      });
+      navigate({
+        to: "/checklist",
+        search: { ...search, tripId: trip.id },
+        replace: true,
+      });
+    } catch (e) {
+      setSaveError(e instanceof Error ? e.message : "Couldn't save this trip.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -141,8 +176,42 @@ function ChecklistPage() {
           </div>
         )}
 
+        {session && !search.tripId && (
+          <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-border bg-card/85 p-3.5">
+            <p className="text-sm text-muted-foreground">
+              Save this trip to check off gear here and in the Chrome extension as you shop.
+            </p>
+            <div className="flex shrink-0 flex-col items-end gap-1">
+              <Button size="sm" onClick={handleSaveTrip} disabled={saving}>
+                {saving ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <BookmarkPlus className="h-4 w-4" />
+                )}
+                Save trip
+              </Button>
+              {saveError && <p className="text-xs text-destructive">{saveError}</p>}
+            </div>
+          </div>
+        )}
+
+        {!session && (
+          <div className="mt-3 rounded-lg border border-dashed border-border p-3.5 text-sm text-muted-foreground">
+            <Link to="/login" className="font-medium text-primary hover:underline">
+              Log in
+            </Link>{" "}
+            to save this trip and check off gear as you shop.
+          </div>
+        )}
+
         <div className="mt-10">
-          <ChecklistView checklist={checklist} parkName={park.name} />
+          <ChecklistView
+            checklist={checklist}
+            parkName={park.name}
+            checkedMap={checkedMap}
+            onToggle={toggle}
+            interactive={interactive}
+          />
         </div>
 
         <div className="mt-10">

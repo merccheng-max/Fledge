@@ -27,21 +27,25 @@ Fledge asks for an activity type, park, arrival date, trip length, and group siz
 4. Live weather when the trip falls within the ~7-day forecast window, with an honest fallback to historical seasonal notes when it doesn't (most national park reservations are made months out, so this is the common case, not the edge case).
 5. A historical crowd-level indicator per park/month, clearly labeled as directional, not live data.
 6. A chatbot scoped to the user's actual trip — grounded in their specific park, activity, dates, and generated checklist, not an open-ended assistant — for follow-up questions ("why do I need a groundsheet," "how was that water number calculated").
-7. A Chrome extension that scores retail products 0–100 against a trip's computed requirements while shopping on REI — see the Roadmap section this shipped out of.
+7. A Chrome extension that scores retail products 0–100 against a trip's computed requirements while shopping on REI.
+8. Optional accounts: log in to save a trip, then check off gear as you shop — on the web app or the Chrome extension, both writing to the same record.
 
 ## v1 scope decisions (and why)
 
 - **A curated set of 11 popular national parks** rather than free-text location, so every recommendation is genuinely tuned to that park rather than generic. Started at 5 (Yosemite, Sequoia & Kings Canyon, Joshua Tree, Death Valley, Zion) and expanded to the most-visited parks in the country (Grand Canyon, Yellowstone, Rocky Mountain, Grand Teton, Great Smoky Mountains, Glacier) once the checklist logic proved out — not to the long tail, where sourcing genuinely accurate seasonal/crowd data per park stops scaling.
 - **Four activity types, not just camping**, each pulling a different gear-catalog subset rather than one generic list wearing different labels. Car camping shipped first as the lower-stakes case to validate the recommendation logic on; hiking, backpacking, and mountaineering followed once that held up. Each park declares which activities its own data actually supports (`supportedActivities`) — Death Valley doesn't offer mountaineering, for instance, because there's no real technical-peak route there to reason about, and offering it anyway would mean fabricating gear logic rather than deferring it.
-- **No accounts, no saved trips.** The core loop — input → checklist → chat — doesn't need persistence to prove the concept, and skipping it kept v1 shippable in scope.
+- **Accounts are opt-in, not required.** The core loop — input → checklist → chat — still needs zero friction and works exactly as before with no login. Logging in only adds two things on top: saving a trip (so it has a stable ID instead of living in a URL) and checking items off, which requires that stable ID to persist against. This kept the original no-accounts decision's benefit (instant, no-signup core loop) while unlocking the thing accounts were actually deferred for.
 - **Weather calls run server-side.** NWS's public API doesn't send CORS headers, so a browser can't call it directly — this was an actual bug found and fixed during build, not a design choice made upfront.
 - **Shop links point to real retailer search pages, not fabricated product URLs.** A specific product link that 404s later is worse than a generic, durable search link.
 
 ## Roadmap (not yet built)
 
 - **Chrome extension — beyond REI.** The extension currently scores 5 gear categories (tent, sleeping bag, water containers, cooler, rain shell) against a car-camping trip's requirements, scoped to REI's product-page DOM. Next: extend fit-scoring to the hiking/backpacking/mountaineering-specific gear now in the catalog (packs, technical gear), and to a second retailer once the one-retailer-at-a-time DOM-scraping approach proves durable.
-- **User accounts / saved trips**, if there's demand for revisiting a plan rather than regenerating it — this also removes the extension's current workaround of linking a trip by pasting its URL.
+- **Editing/un-checking a whole trip's checklist state in bulk**, and showing checklist completion progress (e.g. "12/38 packed") on the checklist page and the `/trips` list — the data already supports this, just not surfaced yet.
+- **Password reset flow.** Email+password auth shipped without a "forgot password" path yet.
 
 ## Tech notes
 
 Built on TanStack Start (React + Vite + Cloudflare Workers), Tailwind v4, shadcn/ui. The chatbot and weather lookup both run through server routes (not client-side calls) to keep API keys server-side and avoid CORS issues. AI responses come from the Lovable AI Gateway, grounded via a system prompt that only allows answers based on the user's actual trip context.
+
+Accounts use Supabase Auth (email + password) with a Postgres database behind it. Two tables — `trips` and `trip_checklist_state` — both have row-level security enabled, scoped to `auth.uid()`, so authorization is enforced by Postgres itself rather than by any application code path. This matters because the Chrome extension talks to Supabase directly (not through the Fledge server) for login and check-off writes, using the same public anon key as the web app — RLS is what keeps that safe rather than anything client-side.

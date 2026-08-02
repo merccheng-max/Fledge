@@ -78,6 +78,45 @@ button:hover {
   display: none;
 }
 
+#logged-out-form input {
+  width: 100%;
+  margin-bottom: 6px;
+  box-sizing: border-box;
+}
+
+#logged-out-form button,
+#logged-in-state button {
+  width: 100%;
+}
+
+#logged-in-state {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.account-email {
+  font-size: 12px;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#logged-in-state button {
+  width: auto;
+  flex-shrink: 0;
+}
+
+#saved-trips {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 12px;
+  border: 1px solid #d8dcd8;
+  border-radius: 6px;
+}
+
 .status {
   min-height: 14px;
   font-size: 12px;

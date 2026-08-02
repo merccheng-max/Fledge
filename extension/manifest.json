@@ -7,11 +7,12 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "permissions": ["storage"],
   "optional_host_permissions": ["*://*/*"],
-  "host_permissions": ["*://*.rei.com/*"],
+  "host_permissions": ["*://*.rei.com/*", "https://txggxwxkhxwvxartmzwo.supabase.co/*"],
   "content_scripts": [
     {
       "matches": ["*://*.rei.com/product/*"],

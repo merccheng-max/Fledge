@@ -8,6 +8,23 @@
   <body>
     <h1>Fledge trip fit score</h1>
 
+    <section id="account-section">
+      <label>Account</label>
+      <div id="logged-out-form">
+        <input id="login-email" type="email" placeholder="Email" />
+        <input id="login-password" type="password" placeholder="Password" />
+        <button id="login-submit">Log in</button>
+        <p class="hint">
+          Logging in lets you pick a saved trip instead of pasting a link, and check off gear
+          here that syncs with the web app.
+        </p>
+      </div>
+      <div id="logged-in-state" class="hidden">
+        <p class="account-email"></p>
+        <button id="logout-submit">Log out</button>
+      </div>
+    </section>
+
     <section>
       <label for="app-url">Your Fledge app URL</label>
       <div class="row">
@@ -17,16 +34,21 @@
       <p class="hint">One-time setup. Needed so the extension can reach your checklist logic.</p>
     </section>
 
+    <section id="saved-trips-section" class="hidden">
+      <label for="saved-trips">Your saved trips</label>
+      <div class="row">
+        <select id="saved-trips"></select>
+        <button id="use-saved-trip">Use</button>
+      </div>
+    </section>
+
     <section>
-      <label for="trip-link">Your trip link</label>
+      <label for="trip-link">Or paste a trip link</label>
       <div class="row">
         <input id="trip-link" type="url" placeholder="Paste your /checklist?... URL" />
         <button id="save-trip">Save</button>
       </div>
-      <p class="hint">
-        Open your trip on Fledge, copy the page URL, and paste it here. No account needed — the
-        trip is fully described by that link.
-      </p>
+      <p class="hint">Works with or without an account — the trip is described by the URL.</p>
     </section>
 
     <section id="trip-summary" class="trip-summary hidden">
@@ -41,5 +63,5 @@
       buy box.
     </footer>
   </body>
-  <script src="popup.js"></script>
+  <script type="module" src="popup.js"></script>
 </html>
