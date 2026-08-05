@@ -60,6 +60,10 @@ const FLEDGE_SCORABLE_ITEM_IDS = new Set([
   "water-containers",
   "cooler",
   "rain-shell",
+  "sleeping-pad",
+  "insulating-layer",
+  "backpacking-pack",
+  "mountaineering-boots",
 ]);
 
 // Cheap keyword guess for which catalog item a product page is probably for,
@@ -79,5 +83,9 @@ function guessGearItemId(productTitle) {
   if (title.includes("headlamp") || title.includes("flashlight")) return "headlamp";
   if (title.includes("fleece") || title.includes("puffy") || title.includes("insulated jacket"))
     return "insulating-layer";
+  if (title.includes("backpack") || title.includes("pack") || title.includes("rucksack"))
+    return "backpacking-pack";
+  if (title.includes("mountaineering boot") || (title.includes("boot") && title.includes("crampon")))
+    return "mountaineering-boots";
   return null;
 }

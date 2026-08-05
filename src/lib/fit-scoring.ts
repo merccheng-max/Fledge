@@ -225,7 +225,163 @@ function scoreRainShell(specs: Record<string, string>, park: Park, season: strin
   return { score: clampScore(score), reasons };
 }
 
-const SCORERS = new Set(["tent", "sleeping-bag", "water-containers", "cooler", "rain-shell"]);
+function scoreSleepingPad(specs: Record<string, string>, coldestNightF: number) {
+  const reasons: string[] = [];
+  let score = 25;
+
+  const rValue = extractNumber(findSpecValue(specs, ["r-value", "r value", "insulation rating"]));
+  // Rough, widely-cited backpacking guideline: R 1-2 for summer, 3-4 for shoulder-season,
+  // 5+ for real winter cold. Same "directional, not exact science" honesty as elsewhere.
+  const neededR = coldestNightF <= 20 ? 5 : coldestNightF <= 32 ? 3.5 : coldestNightF <= 45 ? 2 : 1;
+
+  if (rValue !== undefined) {
+    if (rValue >= neededR) {
+      score += 65;
+      reasons.push(
+        `R-value ${rValue} covers the ~R-${neededR} this trip's estimated coldest night (~${coldestNightF}°F) calls for.`,
+      );
+    } else if (rValue >= neededR - 1) {
+      score += 40;
+      reasons.push(
+        `R-value ${rValue} is close to the ~R-${neededR} this trip calls for — workable, but you'll feel the ground on the coldest night.`,
+      );
+    } else {
+      score += 10;
+      reasons.push(
+        `R-value ${rValue} is well under the ~R-${neededR} this trip's estimated coldest night (~${coldestNightF}°F) calls for.`,
+      );
+    }
+  } else {
+    reasons.push(
+      "Couldn't find an R-value on this page — insulation is hard to judge without one.",
+    );
+  }
+
+  return { score: clampScore(score), reasons };
+}
+
+function scoreInsulatingLayer(specs: Record<string, string>, coldestNightF: number) {
+  const reasons: string[] = [];
+  let score = 25;
+
+  const fillPower = extractNumber(findSpecValue(specs, ["fill power"]));
+  const fillWeight = extractNumber(findSpecValue(specs, ["fill weight", "insulation weight"]));
+
+  if (fillPower !== undefined) {
+    const neededFillPower = coldestNightF <= 20 ? 700 : coldestNightF <= 32 ? 600 : 500;
+    if (fillPower >= neededFillPower) {
+      score += 65;
+      reasons.push(
+        `${fillPower}-fill down is warm enough for this trip's estimated coldest night (~${coldestNightF}°F).`,
+      );
+    } else {
+      score += 25;
+      reasons.push(
+        `${fillPower}-fill down is on the lighter side for this trip's estimated coldest night (~${coldestNightF}°F) — layer it under a shell.`,
+      );
+    }
+  } else if (fillWeight !== undefined) {
+    const neededGrams = coldestNightF <= 20 ? 150 : coldestNightF <= 32 ? 100 : 60;
+    if (fillWeight >= neededGrams) {
+      score += 60;
+      reasons.push(
+        `${fillWeight}g synthetic insulation is a reasonable match for this trip's estimated coldest night (~${coldestNightF}°F).`,
+      );
+    } else {
+      score += 25;
+      reasons.push(
+        `${fillWeight}g synthetic insulation is light for this trip's estimated coldest night (~${coldestNightF}°F).`,
+      );
+    }
+  } else {
+    reasons.push(
+      "Couldn't find a fill power or insulation weight on this page — treat this as a rough check.",
+    );
+  }
+
+  return { score: clampScore(score), reasons };
+}
+
+function scoreBackpackingPack(specs: Record<string, string>, days: number) {
+  const reasons: string[] = [];
+  let score = 25;
+
+  const capacityRaw = findSpecValue(specs, ["capacity", "volume", "liter"]);
+  const capacityL = extractNumber(capacityRaw);
+  // Rough backpacking guideline: ~30-50L for 1-3 days, ~50-70L for 4-7 days, 70L+ beyond that.
+  const recommendedL = days <= 3 ? 40 : days <= 7 ? 60 : 75;
+
+  if (capacityL !== undefined) {
+    const ratio = capacityL / recommendedL;
+    if (ratio >= 0.85 && ratio <= 1.3) {
+      score += 65;
+      reasons.push(
+        `~${capacityL}L is a good match for a ${days}-day trip (rough baseline: ~${recommendedL}L).`,
+      );
+    } else if (ratio < 0.85) {
+      score += 25;
+      reasons.push(
+        `~${capacityL}L is smaller than the rough ~${recommendedL}L baseline for a ${days}-day trip — fine if you pack light, tight otherwise.`,
+      );
+    } else {
+      score += 40;
+      reasons.push(
+        `~${capacityL}L is bigger than the rough ~${recommendedL}L baseline for a ${days}-day trip — more room than you likely need.`,
+      );
+    }
+  } else {
+    reasons.push(`Couldn't find a liter capacity to compare against a ${days}-day trip's needs.`);
+  }
+
+  return { score: clampScore(score), reasons };
+}
+
+function scoreMountaineeringBoots(specs: Record<string, string>, coldestNightF: number) {
+  const reasons: string[] = [];
+  let score = 25;
+
+  const tempRating = extractNumber(
+    findSpecValue(specs, ["temperature rating", "comfort rating", "insulation rating"]),
+  );
+
+  if (tempRating !== undefined) {
+    const margin = coldestNightF - tempRating;
+    if (margin >= 10) {
+      score += 65;
+      reasons.push(
+        `Rated to ${tempRating}°F, comfortably below this trip's estimated coldest conditions (~${coldestNightF}°F).`,
+      );
+    } else if (margin >= -5) {
+      score += 40;
+      reasons.push(
+        `Rated to ${tempRating}°F — close to this trip's estimated coldest conditions (~${coldestNightF}°F).`,
+      );
+    } else {
+      score += 10;
+      reasons.push(
+        `Rated to ${tempRating}°F, warmer than this trip's estimated coldest conditions (~${coldestNightF}°F) — likely too light.`,
+      );
+    }
+  } else {
+    reasons.push(
+      "Couldn't find a temperature/comfort rating on this page — confirm it against your route's conditions manually.",
+    );
+  }
+
+  return { score: clampScore(score), reasons };
+}
+
+const SCORERS = new Set([
+  "tent",
+  "sleeping-bag",
+  "water-containers",
+  "cooler",
+  "rain-shell",
+  "sleeping-pad",
+  "insulating-layer",
+  "backpacking-pack",
+  "mountaineering-boots",
+]);
 
 export function isScorable(itemId: string): boolean {
   return SCORERS.has(itemId);
@@ -266,6 +422,18 @@ export function scoreFit(input: FitScoreInput): FitScoreResult {
       break;
     case "cooler":
       result = scoreCooler(input.specs, tripInput);
+      break;
+    case "sleeping-pad":
+      result = scoreSleepingPad(input.specs, coldestNightF);
+      break;
+    case "insulating-layer":
+      result = scoreInsulatingLayer(input.specs, coldestNightF);
+      break;
+    case "backpacking-pack":
+      result = scoreBackpackingPack(input.specs, input.days);
+      break;
+    case "mountaineering-boots":
+      result = scoreMountaineeringBoots(input.specs, coldestNightF);
       break;
     case "rain-shell": {
       const seasonKey =

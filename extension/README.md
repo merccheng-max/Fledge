@@ -30,11 +30,12 @@ See `docs/PRD.md` for the reasoning behind this design.
 
 - **Retailer:** REI only. Spec-table scraping is DOM-shape-specific; scoped to one retailer
   rather than promising "any site."
-- **Scored items:** tent, sleeping bag, water containers, cooler, rain shell. These are the
-  items with a real, checkable requirement (capacity vs. group size, temp rating vs.
-  estimated coldest night, etc.). Everything else in the catalog is selectable in the
-  picker and can still be checked off, but scoring returns "no fit-scoring rule yet" rather
-  than a fabricated number.
+- **Scored items:** tent, sleeping bag, sleeping pad, insulating layer, water containers,
+  cooler, rain shell, backpacking pack, mountaineering boots. These are the items with a
+  real, checkable requirement (capacity vs. group size, R-value/temp/fill-power vs. estimated
+  coldest night, pack liters vs. trip length, etc.). Everything else in the catalog is
+  selectable in the picker and can still be checked off, but scoring returns "no fit-scoring
+  rule yet" rather than a fabricated number.
 - **Auth talks to Supabase directly**, not through the Fledge app's server — the popup and
   background worker call Supabase's Auth and REST (PostgREST) endpoints with the same public
   anon key the web app uses. Authorization is enforced by Postgres row-level security, not by
