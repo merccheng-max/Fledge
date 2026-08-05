@@ -7,11 +7,12 @@ commit SHA.
 
 ## Pending
 
-- [ ] Add fit-scoring rules to `src/lib/fit-scoring.ts` for `backpacking-pack`
-      (capacity in liters vs. trip length/group size) and `ice-axe` (length vs.
-      user height/route type, or a simpler "no numeric rating on REI pages —
-      skip scoring, just confirm it's rated for mountaineering" check if a
-      real numeric spec isn't reliably available).
+- [ ] Add a fit-scoring rule to `src/lib/fit-scoring.ts` for `ice-axe` (length
+      vs. user height/route type, or a simpler "no numeric rating on REI pages
+      — skip scoring, just confirm it's rated for mountaineering" check if a
+      real numeric spec isn't reliably available). `backpacking-pack` scoring
+      (capacity in liters vs. trip length) shipped in aa997ee, along with
+      sleeping-pad, insulating-layer, and mountaineering-boots.
 - [ ] Document the fit-scoring rules and their reasoning more thoroughly in
       `extension/README.md` — right now it lists which items are scored but
       not *why* those specific thresholds (e.g. the 10,000mm/5,000mm waterproof
